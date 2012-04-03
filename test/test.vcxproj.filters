@@ -8,4 +8,68 @@
       <UniqueIdentifier>{0dbdf2f9-2126-4a6f-b8b8-b10ea1988683}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\mathgp\vector3_swizzle.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector3_swizzle_declare.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector3_swizzle_define.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector4_swizzle.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector4_swizzle_declare.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector4_swizzle_define.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector1_swizzle.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector1_swizzle_declare.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector1_swizzle_define.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector2_swizzle.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector2_swizzle_declare.inl">
+      <Filter>mathgp</Filter>
+    </None>
+    <None Include="..\mathgp\vector2_swizzle_define.inl">
+      <Filter>mathgp</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\mathgp\complex.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\constants.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\defines.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\mathgp.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\matrix.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\ntuple.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\transform.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\vector.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

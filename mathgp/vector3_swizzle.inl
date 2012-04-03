@@ -1,17 +1,29 @@
-value_type& x()
+value_type& z()
 {
-    return at(0);
+    return at(2);
 }
 
-const value_type& x() const
+const value_type& z() const
 {
-    return at(0);
+    return at(2);
 }
 
-_internal::swizzle_vectornt<2, _type, vector2t<_type>> xx();
+vector2t<_type>& yz()
+{
+    return reinterpret_cast<vector2t<_type>*>(as_array() + 1);
+}
 
-vector2t<_type> xx() const;
+const vector2t<_type>& yz() const
+{
+    return reinterpret_cast<vector2t<_type>*>(as_array() + 1);
+}
 
-_internal::swizzle_vectornt<3, _type, vector3t<_type>> xxx();
+vector3t<_type>& xyz()
+{
+    return reinterpret_cast<vector3t<_type>*>(as_array());
+}
 
-vector3t<_type> xxx() const;
+const vector3t<_type>& xyz() const
+{
+    return reinterpret_cast<vector3t<_type>*>(as_array());
+}

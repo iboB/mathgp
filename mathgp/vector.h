@@ -7,7 +7,7 @@
 
 #include "ntuple.h"
 
-namespace yamgp
+namespace mathgp
 {
 namespace _internal
 {
@@ -23,7 +23,7 @@ public:
 template <size_t _n, typename _type, typename _this_type>
 ::std::ostream& operator<<(::std::ostream& o, const vectornt<_n, _type, _this_type>& vec)
 {
-    typedef yamgp::_internal::vectornt<_n, _type, _this_type> vector;
+    typedef mathgp::_internal::vectornt<_n, _type, _this_type> vector;
 
     o << '(';
     for(typename vector::size_type i=0; i<vector::dimension; ++i)
@@ -41,6 +41,7 @@ template <size_t _n, typename _type, typename _this_type>
 }
 #endif
 
+#if !defined(MATHGP_DISABLE_SWIZZLE)
 
 template <typename _type>
 class wrap_ref
@@ -69,7 +70,7 @@ public:
     {
         _this_type ret;
 
-        YAMGP_EACH_OF(ret) = at(i);
+        MATHGP_EACH_OF(ret) = at(i);
 
         return ret;
     }
@@ -87,43 +88,9 @@ private:
     // unsafe operators to be hidden
 };
 
-template <typename _this_type, typename _type>
-swizzle_vectornt<2, _type, _this_type> swizzle2(const _type& x, const _type& y)
-{
-    swizzle_vectornt<2, _type, _this_type> ret;
+#endif // #if !defined(MATHGP_DISABLE_SWIZZLE)
 
-    ret.at(0).ref = &x;
-    ret.at(1).ref = &y;
-
-    return ret;
-}
-
-template <typename _this_type, typename _type>
-swizzle_vectornt<3, _type, _this_type> swizzle3(const _type& x, const _type& y, const _type& z)
-{
-    swizzle_vectornt<3, _type, _this_type> ret;
-
-    ret.at(0).ref = &x;
-    ret.at(1).ref = &y;
-    ret.at(2).ref = &z;
-
-    return ret;
-}
-
-template <typename _this_type, typename _type>
-swizzle_vectornt<4, _type, _this_type> swizzle3(const _type& x, const _type& y, const _type& z, const _type& w)
-{
-    swizzle_vectornt<4, _type, _this_type> ret;
-
-    ret.at(0).ref = &x;
-    ret.at(1).ref = &y;
-    ret.at(2).ref = &z;
-    ret.at(3).ref = &w;
-
-    return ret;
-}
-
-}
+} // namespace _internal
 
 template <typename _type>
 class vector1t;
@@ -156,7 +123,11 @@ public:
         return ret;
     }
 
-#include "vector1_swizzle_declare.inl"
+#include "vector1_swizzle.inl"
+
+#if !defined(MATHGP_DISABLE_SWIZZLE)
+#   include "vector1_swizzle_declare.inl" // generated file
+#endif
 
 };
 
@@ -177,8 +148,12 @@ public:
         return ret;
     }
 
-#include "vector1_swizzle_declare.inl"
-#include "vector2_swizzle_declare.inl"
+#include "vector1_swizzle.inl"
+#include "vector2_swizzle.inl"
+
+#if !defined(MATHGP_DISABLE_SWIZZLE)
+#   include "vector2_swizzle_declare.inl" // generated file
+#endif
 
 };
 
@@ -200,28 +175,97 @@ public:
         return ret;
     }
 
-#include "vector1_swizzle_declare.inl"
-#include "vector2_swizzle_declare.inl"
-#include "vector3_swizzle_declare.inl"
+#include "vector1_swizzle.inl"
+#include "vector2_swizzle.inl"
+#include "vector3_swizzle.inl"
+
+#if !defined(MATHGP_DISABLE_SWIZZLE)
+#   include "vector3_swizzle_declare.inl" // generated file
+#endif
 
 };
 
-#define YAMGP_SWIZZLE_VEC vector1t
-#include "vector1_swizzle_define.inl"
-#undef YAMGP_SWIZZLE_VEC
+template <typename _type>
+class vector4t : public _internal::vectornt<4, _type, vector4t<_type>>
+{
+public:
+    ////////////////////////////////////////////////////////
+    // named constructors
 
-#define YAMGP_SWIZZLE_VEC vector2t
-#include "vector1_swizzle_define.inl"
-#include "vector2_swizzle_define.inl"
-#undef YAMGP_SWIZZLE_VEC
+    static vector4t coord(value_type x, value_type y, value_type z, value_type w)
+    {
+        vector4t ret;
 
-#define YAMGP_SWIZZLE_VEC vector3t
-#include "vector1_swizzle_define.inl"
-#include "vector2_swizzle_define.inl"
-#include "vector3_swizzle_define.inl"
-#undef YAMGP_SWIZZLE_VEC
+        ret.x() = x;
+        ret.y() = y;
+        ret.z() = z;
+        ret.w() = w;
 
-//#define YAMGP_SWIZZLE_VEC vector1t
-//#include "vector1_swizzle_define.inl"
+        return ret;
+    }
 
+#include "vector1_swizzle.inl"
+#include "vector2_swizzle.inl"
+#include "vector3_swizzle.inl"
+#include "vector4_swizzle.inl"
+
+#if !defined(MATHGP_DISABLE_SWIZZLE)
+#   include "vector4_swizzle_declare.inl" // generated file
+#endif
+
+};
+
+
+#if !defined(MATHGP_DISABLE_SWIZZLE)
+
+namespace _internal
+{
+
+template <typename _type>
+swizzle_vectornt<2, _type, vector2t<_type>> swizzle2(_type& x, _type& y)
+{
+    swizzle_vectornt<2, _type, vector2t<_type>> ret;
+
+    ret.at(0).ref = &x;
+    ret.at(1).ref = &y;
+
+    return ret;
 }
+
+template <typename _type>
+swizzle_vectornt<3, _type, vector3t<_type>> swizzle3(_type& x, _type& y, _type& z)
+{
+    swizzle_vectornt<3, _type, vector3t<_type>> ret;
+
+    ret.at(0).ref = &x;
+    ret.at(1).ref = &y;
+    ret.at(2).ref = &z;
+
+    return ret;
+}
+
+template <typename _type>
+swizzle_vectornt<4, _type, vector4t<_type>> swizzle4(_type& x, _type& y, _type& z, _type& w)
+{
+    swizzle_vectornt<4, _type, vector4t<_type>> ret;
+
+    ret.at(0).ref = &x;
+    ret.at(1).ref = &y;
+    ret.at(2).ref = &z;
+    ret.at(3).ref = &w;
+
+    return ret;
+}
+
+} // namespace internal
+
+
+#   include "vector1_swizzle_define.inl"
+#   include "vector2_swizzle_define.inl"
+#   include "vector3_swizzle_define.inl"
+#   include "vector4_swizzle_define.inl"
+
+#endif // #if !defined(MATHGP_DISABLE_SWIZZLE)
+
+
+} // namespace mathgp

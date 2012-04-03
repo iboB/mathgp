@@ -1,17 +1,9 @@
-value_type& x()
+value_type& w()
 {
-    return at(0);
+    return at(3);
 }
 
-const value_type& x() const
+const value_type& w() const
 {
-    return at(0);
+    return at(3);
 }
-
-_internal::swizzle_vectornt<2, _type, vector2t<_type>> xx();
-
-vector2t<_type> xx() const;
-
-_internal::swizzle_vectornt<3, _type, vector3t<_type>> xxx();
-
-vector3t<_type> xxx() const;

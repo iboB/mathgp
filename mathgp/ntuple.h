@@ -7,7 +7,7 @@
 
 #include "defines.h"
 
-namespace yamgp
+namespace mathgp
 {
 
 namespace _internal
@@ -32,7 +32,7 @@ public:
         //could use memset, but it's probably slower...
         //for should be optimized at compile time.
         //too lazy to test
-        YAMGP_EACH_OF(ret) = value_type(0);
+        MATHGP_EACH_OF(ret) = value_type(0);
 
         return ret;
     }
@@ -43,7 +43,7 @@ public:
 
         //could use memcpy, but it's probably slower...
         //for should be optimized at compile time.        
-        YAMGP_EACH_OF(ret) = ptr[i];
+        MATHGP_EACH_OF(ret) = ptr[i];
         
         return ret;
     }
@@ -140,28 +140,28 @@ public:
 
     _this_type& operator+=(const _this_type& b)
     {
-        YAMGP_EACH_VAL += b.at(i);
+        MATHGP_EACH_VAL += b.at(i);
 
         return as_this_type();
     }
 
     _this_type& operator-=(const _this_type& b)
     {
-        YAMGP_EACH_VAL -= b.at(i);
+        MATHGP_EACH_VAL -= b.at(i);
 
         return as_this_type();
     }
 
     _this_type& operator*=(const value_type& scalar)
     {
-        YAMGP_EACH_VAL *= scalar;
+        MATHGP_EACH_VAL *= scalar;
 
         return as_this_type();
     }
 
     _this_type& operator/=(const value_type& scalar)
     {
-        YAMGP_EACH_VAL /= scalar;
+        MATHGP_EACH_VAL /= scalar;
 
         return as_this_type();
     }
@@ -189,7 +189,7 @@ _this_type operator+(const ntuple<_n, _type, _this_type>& a,
 {
     _this_type ret;
 
-    YAMGP_EACH_OF(ret) = a.at(i) + b.at(i);
+    MATHGP_EACH_OF(ret) = a.at(i) + b.at(i);
 
     return ret;
 }
@@ -200,7 +200,7 @@ _this_type operator-(const ntuple<_n, _type, _this_type>& a,
 {
     _this_type ret;
 
-    YAMGP_EACH_OF(ret) = a.at(i) - b.at(i);
+    MATHGP_EACH_OF(ret) = a.at(i) - b.at(i);
 
     return ret;
 }
@@ -211,7 +211,7 @@ _this_type operator*(const ntuple<_n, _type, _this_type>& a,
 {
     _this_type ret;
 
-    YAMGP_EACH_OF(ret) = a.at(i) * scalar;
+    MATHGP_EACH_OF(ret) = a.at(i) * scalar;
 
     return ret;
 }
@@ -222,7 +222,7 @@ _this_type operator*(const _type& scalar,
 {
     _this_type ret;
 
-    YAMGP_EACH_OF(ret) = scalar * a.at(i);
+    MATHGP_EACH_OF(ret) = scalar * a.at(i);
 
     return ret;
 }
@@ -233,7 +233,7 @@ _this_type operator/(const ntuple<_n, _type, _this_type>& a,
 {
     _this_type ret;
 
-    YAMGP_EACH_OF(ret) = a.at(i) / scalar;
+    MATHGP_EACH_OF(ret) = a.at(i) / scalar;
 
     return ret;
 }

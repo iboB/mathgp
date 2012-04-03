@@ -5,7 +5,7 @@
 //  distribution for details about the copyright
 #pragma once
 
-namespace yamgp
+namespace mathgp
 {
 
 template <typename _type>

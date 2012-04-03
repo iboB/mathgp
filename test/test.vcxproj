@@ -78,6 +78,30 @@
   <ItemGroup>
     <ClCompile Include="basic.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\mathgp\vector1_swizzle.inl" />
+    <None Include="..\mathgp\vector1_swizzle_declare.inl" />
+    <None Include="..\mathgp\vector1_swizzle_define.inl" />
+    <None Include="..\mathgp\vector2_swizzle.inl" />
+    <None Include="..\mathgp\vector2_swizzle_declare.inl" />
+    <None Include="..\mathgp\vector2_swizzle_define.inl" />
+    <None Include="..\mathgp\vector3_swizzle.inl" />
+    <None Include="..\mathgp\vector3_swizzle_declare.inl" />
+    <None Include="..\mathgp\vector3_swizzle_define.inl" />
+    <None Include="..\mathgp\vector4_swizzle.inl" />
+    <None Include="..\mathgp\vector4_swizzle_declare.inl" />
+    <None Include="..\mathgp\vector4_swizzle_define.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\mathgp\complex.h" />
+    <ClInclude Include="..\mathgp\constants.h" />
+    <ClInclude Include="..\mathgp\defines.h" />
+    <ClInclude Include="..\mathgp\mathgp.h" />
+    <ClInclude Include="..\mathgp\matrix.h" />
+    <ClInclude Include="..\mathgp\ntuple.h" />
+    <ClInclude Include="..\mathgp\transform.h" />
+    <ClInclude Include="..\mathgp\vector.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
