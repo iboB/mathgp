@@ -39,6 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:/Libraries/boost_1_49_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -96,10 +97,13 @@
     <ClInclude Include="..\mathgp\complex.h" />
     <ClInclude Include="..\mathgp\constants.h" />
     <ClInclude Include="..\mathgp\defines.h" />
+    <ClInclude Include="..\mathgp\functions.h" />
     <ClInclude Include="..\mathgp\mathgp.h" />
     <ClInclude Include="..\mathgp\matrix.h" />
     <ClInclude Include="..\mathgp\ntuple.h" />
+    <ClInclude Include="..\mathgp\stdext.h" />
     <ClInclude Include="..\mathgp\transform.h" />
+    <ClInclude Include="..\mathgp\types.h" />
     <ClInclude Include="..\mathgp\vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

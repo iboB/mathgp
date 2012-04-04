@@ -71,5 +71,14 @@
     <ClInclude Include="..\mathgp\vector.h">
       <Filter>mathgp</Filter>
     </ClInclude>
+    <ClInclude Include="..\mathgp\functions.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\stdext.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\types.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,6 +5,8 @@
 //  distribution for details about the copyright
 #pragma once
 
+//#define MATHGP_DISABLE_SWIZZLE
+
 #include "defines.h"
 #include "vector.h"
 #include "matrix.h"

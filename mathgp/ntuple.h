@@ -22,19 +22,27 @@ public:
 
     static const size_type value_count = _n;
 
+    typedef void mathgp_type; // for sfinae
+
     ////////////////////////////////////////////////////////
     // named constructors
-
-    static _this_type zero()
+    static _this_type copy(value_type scalar)
     {
         _this_type ret;
 
         //could use memset, but it's probably slower...
-        //for should be optimized at compile time.
-        //too lazy to test
-        MATHGP_EACH_OF(ret) = value_type(0);
+        //"for" should be optimized at compile time.
+        for(size_type i=0; i<value_count; ++i)
+        {
+            ret.at(i) = scalar;
+        }
 
         return ret;
+    }
+
+    static _this_type zero()
+    {
+        return copy(value_type(0));
     }
 
     static _this_type from_ptr(const value_type* ptr)
@@ -133,9 +141,18 @@ public:
     ////////////////////////////////////////////////////////
     // arithmetic
 
+    const _this_type& operator+() const
+    {
+        return as_this_type();
+    }
+
     _this_type operator-() const
     {
         _this_type ret;
+
+        MATHGP_EACH_VAL = -at(i);
+
+        return ret;
     }
 
     _this_type& operator+=(const _this_type& b)
@@ -165,7 +182,6 @@ public:
 
         return as_this_type();
     }
-
 
 protected:
     value_type values[value_count];
@@ -238,6 +254,49 @@ _this_type operator/(const ntuple<_n, _type, _this_type>& a,
     return ret;
 }
 
+template <size_t _n, typename _type, typename _this_type>
+bool operator==(const ntuple<_n, _type, _this_type>& a,
+                const ntuple<_n, _type, _this_type>& b)
+{
+    for(size_t i=0; i<_this_type::value_count; ++i)
+    {
+        if(a.at(i) != b.at(i))
+            return false;
+    }
+
+    return true;
 }
 
+template <size_t _n, typename _type, typename _this_type>
+bool operator!=(const ntuple<_n, _type, _this_type>& a,
+                const ntuple<_n, _type, _this_type>& b)
+{
+    return !operator==(a, b);
 }
+
+template <size_t _n, typename _type, typename _this_type>
+_this_type rcp(const _type& scalar,
+               const ntuple<_n, _type, _this_type>& b)
+{
+    _this_type ret;
+
+    MATHGP_EACH_OF(ret) = scalar / b.at(i);
+
+    return ret;
+}
+
+template <size_t _n, typename _type, typename _this_type>
+_this_type abs(const ntuple<_n, _type, _this_type>& a)
+{
+    _this_type ret;
+
+    MATHGP_EACH_OF(ret) = std::abs(a.at(i));
+
+    return ret;
+}
+
+} // namespace _internal
+
+} // namespace mathgp
+
+
