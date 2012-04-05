@@ -40,6 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:/Libraries/boost_1_49_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Libraries\boost_1_49_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -77,9 +78,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="basic.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\mathgp\vector1_swizzle.inl" />
     <None Include="..\mathgp\vector1_swizzle_declare.inl" />
     <None Include="..\mathgp\vector1_swizzle_define.inl" />
@@ -105,6 +103,10 @@
     <ClInclude Include="..\mathgp\transform.h" />
     <ClInclude Include="..\mathgp\types.h" />
     <ClInclude Include="..\mathgp\vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="prerequisites.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
