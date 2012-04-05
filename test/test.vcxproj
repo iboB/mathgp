@@ -99,12 +99,14 @@
     <ClInclude Include="..\mathgp\mathgp.h" />
     <ClInclude Include="..\mathgp\matrix.h" />
     <ClInclude Include="..\mathgp\ntuple.h" />
+    <ClInclude Include="..\mathgp\quaternion.h" />
     <ClInclude Include="..\mathgp\stdext.h" />
     <ClInclude Include="..\mathgp\transform.h" />
     <ClInclude Include="..\mathgp\types.h" />
     <ClInclude Include="..\mathgp\vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="construction_and_access.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="prerequisites.cpp" />
   </ItemGroup>

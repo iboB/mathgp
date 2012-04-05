@@ -401,31 +401,31 @@ public:
 };
 
 template <size_t _dim, typename _type>
-class vector_space
+struct vector_space
 {
     typedef vectorntx<_dim, _type> vector;
 };
 
 template <typename _type>
-class vector_space<1, typename _type>
+struct vector_space<1, typename _type>
 {
     typedef vector1t<_type> vector;
 };
 
 template <typename _type>
-class vector_space<2, typename _type>
+struct vector_space<2, typename _type>
 {
     typedef vector2t<_type> vector;
 };
 
 template <typename _type>
-class vector_space<3, typename _type>
+struct vector_space<3, typename _type>
 {
     typedef vector3t<_type> vector;
 };
 
 template <typename _type>
-class vector_space<4, typename _type>
+struct vector_space<4, typename _type>
 {
     typedef vector4t<_type> vector;
 };

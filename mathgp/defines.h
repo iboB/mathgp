@@ -10,3 +10,6 @@
 #define MATHGP_EACH_VAL for(size_type i=0; i<value_count; ++i) at(i)
 
 #define MATHGP_EACH_OF(x) for(size_type i=0; i<value_count; ++i) x.at(i)
+
+#define MATHGP_CAT(a, b) _MATHGP_INTERNAL_CAT(a, b);
+#define _MATHGP_INTERNAL_CAT(a, b) a##b

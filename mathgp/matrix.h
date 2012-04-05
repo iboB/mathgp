@@ -88,6 +88,13 @@ public:
     }
 
     ////////////////////////////////////////////////////////
+    // arithmetic
+    _this_type& operator*=(const matrixnxnt& b)
+    {
+        return matrixnxn_multiply<true>(*this, *this, b);
+    }
+
+    ////////////////////////////////////////////////////////
     // functions
 
     value_type adjunct(size_type row, size_type col) const
@@ -163,6 +170,44 @@ private:
 
 };
 
+template <size_t _order, typename _type, typename _this_type>
+_this_type& operator*=(const matrixnxnt<_order, _type, _this_type>& a, const matrixnxnt<_order, _type, _this_type>& b)
+{
+    matrixnxnt<_order, _type, _this_type> result;
+
+    return matrixnxn_multiply<false>(result, a, b);
+
+    return result;
+}
+
+template <bool copy, size_t _order, typename _type, typename _this_type>
+const matrixnxnt<_order, _type, _this_type>& matrixnxn_multiply(
+    matrixnxnt<_order, _type, _this_type>& out_result, 
+    const matrixnxnt<_order, _type, _this_type>& a, 
+    const matrixnxnt<_order, _type, _this_type>& b)
+{
+    matrixnxnt<_order, _type, _this_type>& copy_matrix;
+    matrixnxnt<_order, _type, _this_type>& result = copy ? copy_matrix : out_result;
+
+    for(size_t i=0; i<_order; ++i)
+    {
+        for(size_t j=0; j<_order; ++j)
+        {
+            result(i, j) = 0;
+                    
+            for(size_t k=0; k<_order; ++k)
+            {
+                result(i, j) += a(i, k) * b(k, j);
+            }
+        }
+    }
+
+    if(copy)
+        out_result = copy_matrix;
+
+    return result;
+}
+
 } // namespace _internal
 
 
@@ -176,8 +221,8 @@ class matrix2x2t : public _internal::matrixnxnt<2, _type, matrix2x2t<_type>>
 {
 public:
     static matrix2x2t columns(
-        float cr00, float cr01, //column 1
-        float cr10, float cr11  //column 2
+        value_type cr00, value_type cr01, //column 1
+        value_type cr10, value_type cr11  //column 2
         )
     {
         matrix2x2t ret;
@@ -187,8 +232,8 @@ public:
     }
 
     static matrix2x2t rows(
-        float rc00, float rc01, //row 1
-        float rc10, float rc11, //row 2
+        value_type rc00, value_type rc01, //row 1
+        value_type rc10, value_type rc11 //row 2
         )
     {
         matrix2x2t ret;
@@ -203,9 +248,9 @@ class matrix3x3t : public _internal::matrixnxnt<3, _type, matrix3x3t<_type>>
 {
 public:
     static matrix3x3t columns(
-        float cr00, float cr01, float cr02, //column 1
-        float cr10, float cr11, float cr12, //column 2
-        float cr20, float cr21, float cr22  //column 3
+        value_type cr00, value_type cr01, value_type cr02, //column 1
+        value_type cr10, value_type cr11, value_type cr12, //column 2
+        value_type cr20, value_type cr21, value_type cr22  //column 3
         )
     {
         matrix3x3t ret;
@@ -216,9 +261,9 @@ public:
     }
 
     static matrix3x3t rows(
-        float rc00, float rc01, float rc02, //row 1
-        float rc10, float rc11, float rc12, //row 2
-        float rc20, float rc21, float rc22  //row 3
+        value_type rc00, value_type rc01, value_type rc02, //row 1
+        value_type rc10, value_type rc11, value_type rc12, //row 2
+        value_type rc20, value_type rc21, value_type rc22  //row 3
         )
     {
         matrix3x3t ret;
@@ -234,10 +279,10 @@ class matrix4x4t : public _internal::matrixnxnt<4, _type, matrix4x4t<_type>>
 {
 public:
     static matrix4x4t columns(
-        float cr00, float cr01, float cr02, float cr03, //column 1
-        float cr10, float cr11, float cr12, float cr13, //column 2
-        float cr20, float cr21, float cr22, float cr23, //column 3
-        float cr30, float cr31, float cr32, float cr33  //column 4
+        value_type cr00, value_type cr01, value_type cr02, value_type cr03, //column 1
+        value_type cr10, value_type cr11, value_type cr12, value_type cr13, //column 2
+        value_type cr20, value_type cr21, value_type cr22, value_type cr23, //column 3
+        value_type cr30, value_type cr31, value_type cr32, value_type cr33  //column 4
         )
     {
         matrix4x4t ret;
@@ -249,10 +294,10 @@ public:
     }
 
     static matrix4x4t rows(
-        float rc00, float rc01, float rc02, float rc03, //row 1
-        float rc10, float rc11, float rc12, float rc13, //row 2
-        float rc20, float rc21, float rc22, float rc23, //row 3
-        float rc30, float rc31, float rc32, float rc33  //row 4
+        value_type rc00, value_type rc01, value_type rc02, value_type rc03, //row 1
+        value_type rc10, value_type rc11, value_type rc12, value_type rc13, //row 2
+        value_type rc20, value_type rc21, value_type rc22, value_type rc23, //row 3
+        value_type rc30, value_type rc31, value_type rc32, value_type rc33  //row 4
         )
     {
         matrix4x4t ret;
@@ -262,6 +307,36 @@ public:
         ret(0, 3) = rc03; ret(1, 3) = rc13; ret(2, 3) = rc23; ret(3, 3) = rc33;
         return ret;
     }
+};
+
+template <size_t _order, typename _type>
+struct matrix_space
+{
+    //typedef vectorntx<_dim, _type> vector;
+};
+
+template <typename _type>
+struct matrix_space<1, typename _type>
+{
+    typedef matrix1x1t<_type> matrix;
+};
+
+template <typename _type>
+struct matrix_space<2, typename _type>
+{
+    typedef matrix2x2t<_type> matrix;
+};
+
+template <typename _type>
+struct matrix_space<3, typename _type>
+{
+    typedef matrix3x3t<_type> matrix;
+};
+
+template <typename _type>
+struct matrix_space<4, typename _type>
+{
+    typedef matrix4x4t<_type> matrix;
 };
 
 } // namespace mathgp

@@ -26,7 +26,7 @@ public:
 
     ////////////////////////////////////////////////////////
     // named constructors
-    static _this_type copy(value_type scalar)
+    static _this_type uniform(value_type scalar)
     {
         _this_type ret;
 
@@ -42,7 +42,7 @@ public:
 
     static _this_type zero()
     {
-        return copy(value_type(0));
+        return uniform(value_type(0));
     }
 
     static _this_type from_ptr(const value_type* ptr)

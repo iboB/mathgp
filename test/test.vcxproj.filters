@@ -77,9 +77,13 @@
     <ClInclude Include="..\mathgp\types.h">
       <Filter>mathgp</Filter>
     </ClInclude>
+    <ClInclude Include="..\mathgp\quaternion.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="prerequisites.cpp" />
+    <ClCompile Include="construction_and_access.cpp" />
   </ItemGroup>
 </Project>
