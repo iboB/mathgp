@@ -45,9 +45,7 @@ void nrvo()
 
 test_suite* prerequisites()
 {
-    unit_test_log.set_threshold_level(log_test_units);
-
-    test_suite* suite = BOOST_TEST_SUITE( "prerequisites" );
+    test_suite* suite = BOOST_TEST_SUITE("prerequisites");
 
     suite->add(BOOST_TEST_CASE(nrvo));
 

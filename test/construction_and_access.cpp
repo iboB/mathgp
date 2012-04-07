@@ -10,6 +10,7 @@
 #define MATHGP_PREFERRED_TYPE float
 
 #include <mathgp/mathgp.h>
+#include <mathgp/stdext.h>
 
 using namespace boost::unit_test;
 using namespace std;
@@ -180,9 +181,7 @@ void access()
 
 test_suite* construction_and_access()
 {
-    unit_test_log.set_threshold_level(log_test_units);
-
-    test_suite* suite = BOOST_TEST_SUITE( "construction and access" );
+    test_suite* suite = BOOST_TEST_SUITE("construction and access");
 
     suite->add(BOOST_TEST_CASE(ntuple_construct));
     suite->add(BOOST_TEST_CASE(vector_construct));

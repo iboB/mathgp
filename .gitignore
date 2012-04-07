@@ -1,0 +1,7 @@
+# visual studio specific
+*.suo
+*.sdf
+*.user
+
+test/Debug/
+test/ipch/

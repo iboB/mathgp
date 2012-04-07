@@ -26,7 +26,7 @@ public:
 
     ////////////////////////////////////////////////////////
     // named constructors
-    static _this_type uniform(value_type scalar)
+    static _this_type uniform(_type scalar)
     {
         _this_type ret;
 
@@ -42,10 +42,10 @@ public:
 
     static _this_type zero()
     {
-        return uniform(value_type(0));
+        return uniform(_type(0));
     }
 
-    static _this_type from_ptr(const value_type* ptr)
+    static _this_type from_ptr(const _type* ptr)
     {
         _this_type ret;
 
@@ -59,22 +59,22 @@ public:
     ////////////////////////////////////////////////////////
     // attach
 
-    static _this_type& attach_to_ptr(value_type* ptr)
+    static _this_type& attach_to_ptr(_type* ptr)
     {
         return *reinterpret_cast<_this_type*>(ptr);
     }
 
-    static const _this_type& attach_to_ptr(const value_type* ptr)
+    static const _this_type& attach_to_ptr(const _type* ptr)
     {
         return *reinterpret_cast<const _this_type*>(ptr);
     }
 
-    static _this_type* attach_to_array(value_type* ar)
+    static _this_type* attach_to_array(_type* ar)
     {
         return reinterpret_cast<_this_type*>(ar);
     }
 
-    static const _this_type* attach_to_array(const value_type* ar)
+    static const _this_type* attach_to_array(const _type* ar)
     {
         return reinterpret_cast<const _this_type*>(ar);
     }
@@ -82,32 +82,32 @@ public:
     ////////////////////////////////////////////////////////
     // access
 
-    value_type* as_array()
+    _type* as_array()
     {
         return values;
     }
 
-    const value_type* as_array() const
+    const _type* as_array() const
     {
         return values;
     }
 
-    value_type& at(size_type i)
+    _type& at(size_type i)
     {
         return values[i];
     }
 
-    const value_type& at(size_type i) const
+    const _type& at(size_type i) const
     {
         return values[i];
     }
 
-    value_type& operator[](size_type i)
+    _type& operator[](size_type i)
     {
         return at(i);
     }
 
-    const value_type& operator[](size_type i) const
+    const _type& operator[](size_type i) const
     {
         return at(i);
     }
@@ -115,8 +115,8 @@ public:
     ////////////////////////////////////////////////////////
     // std
 
-    typedef value_type* iterator;
-    typedef const value_type* const_iterator;
+    typedef _type* iterator;
+    typedef const _type* const_iterator;
 
     iterator* begin()
     {
@@ -169,14 +169,14 @@ public:
         return as_this_type();
     }
 
-    _this_type& operator*=(const value_type& scalar)
+    _this_type& operator*=(const _type& scalar)
     {
         MATHGP_EACH_VAL *= scalar;
 
         return as_this_type();
     }
 
-    _this_type& operator/=(const value_type& scalar)
+    _this_type& operator/=(const _type& scalar)
     {
         MATHGP_EACH_VAL /= scalar;
 
@@ -184,7 +184,7 @@ public:
     }
 
 protected:
-    value_type values[value_count];
+    _type values[value_count];
 
     _this_type& as_this_type()
     {

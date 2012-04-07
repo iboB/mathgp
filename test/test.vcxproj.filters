@@ -85,5 +85,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="prerequisites.cpp" />
     <ClCompile Include="construction_and_access.cpp" />
+    <ClCompile Include="arithmetic.cpp" />
+    <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="specific_3d.cpp" />
   </ItemGroup>
 </Project>

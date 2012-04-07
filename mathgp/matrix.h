@@ -27,64 +27,88 @@ public:
         _this_type ret = _this_type::zero();
 
         for(size_type i=0; i<order; ++i) 
-            a(i, i) = value_type(1);
+            ret.m(i, i) = _type(1);
 
         return ret;
     }
 
     ////////////////////////////////////////////////////////
     // access
-    value_type* column(size_type i)
+    _type* column(size_type i)
     {
         return as_array() + i*order;
     }
 
-    const value_type* column() const        
+    const _type* column(size_type i) const        
     {
         return as_array() + i*order;
     }
 
-    value_type& m(size_type row, size_type column)
+    _type& m(size_type row, size_type column)
     {
         return this->column(column)[row];
     }
 
-    const value_type& m(size_type row, size_type column) const
+    const _type& m(size_type row, size_type column) const
     {
         return this->column(column)[row];
     }
     
-    value_type& operator()(size_type row, size_type column)
+    _type& operator()(size_type row, size_type column)
     {
         return m(row, column);
     }
 
-    const value_type& operator()(size_type row, size_type column) const
+    const _type& operator()(size_type row, size_type column) const
     {
         return m(row, column);
     }
 
-    order_vector& column_vector(size_type i)
+    order_vector& column_vector(size_type col)
     {
-        return *reinterpret_cast<order_vector>(column(i));
+        return *reinterpret_cast<order_vector>(column(col));
+    }
+
+    const order_vector& column_vector(size_type col) const
+    {
+        return *reinterpret_cast<order_vector>(column(col));
     }
 
     template <size_type _dim>
-    const order_vector& column_vector(size_type i) const
+    typename vector_space<_dim, _type>::vector& column_vector(size_type col, size_t offset)
     {
-        return *reinterpret_cast<order_vector>(column(i) + offset);
+        return *reinterpret_cast<vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
     template <size_type _dim>
-    typename vector_space<_dim, _type>::vector& column_vector(size_type i, size_t offset = 0)
+    const typename vector_space<_dim, _type>::vector& column_vector(size_type col, size_t offset) const
     {
-        return *reinterpret_cast<vector_space<_dim, _type>::vector*>(column(i) + offset);
+        return *reinterpret_cast<const vector_space<_dim, _type>::vector*>(column(col) + offset);
+    }
+
+    order_vector row_vector(size_type row) const
+    {
+        order_vector vec;
+
+        for(size_type col=0; col<order; ++col)
+        {
+            vec.at(col) = this->column(col)[row];
+        }
+
+        return vec;
     }
 
     template <size_type _dim>
-    const typename vector_space<_dim, _type>::vector& column_vector(size_type i, size_t offset = 0) const
+    typename vector_space<_dim, _type>::vector& row_vector(size_type i, size_t offset) const
     {
-        return *reinterpret_cast<const vector_space<_dim, _type>::vector*>(column(i) + offset);
+        typename vector_space<_dim, _type>::vector vec;
+
+        for(size_type col=offset; col<_dim; ++col)
+        {
+            vec.at(col) = this->column(col)[row];
+        }
+
+        return vec;
     }
 
     ////////////////////////////////////////////////////////
@@ -97,14 +121,14 @@ public:
     ////////////////////////////////////////////////////////
     // functions
 
-    value_type adjunct(size_type row, size_type col) const
+    _type adjunct(size_type row, size_type col) const
     {
-         return first_minor(row, col) * (((row+col)&1)?value_type(-1):value_type(1));
+         return first_minor(row, col) * (((row+col)&1)?_type(-1):_type(1));
     }
 
-    value_type first_minor(size_type row, size_type col) const
+    _type first_minor(size_type row, size_type col) const
     {
-        matrixnxnt<order-1, value_type> minor;
+        matrixnxnt<order-1, _type> minor;
 
         for(size_type r=0; r<row; ++r)
         {
@@ -127,13 +151,18 @@ public:
         return minor.determinant();
     }
 
-    value_type determinant() const
+    _type determinant() const
     {
         return det_impl<order>::eval(*this);
     }
 
 
 private:
+    template <bool copy, size_t _order, typename _type, typename _this_type>
+    friend _this_type& matrixnxn_multiply(
+        matrixnxnt<_order, _type, _this_type>& out_result, 
+        const matrixnxnt<_order, _type, _this_type>& a, 
+        const matrixnxnt<_order, _type, _this_type>& b);
 
     //_unused is a stupid gcc workaround
     //it doesn't allow fully specialized member types, or any specialization of methods
@@ -145,10 +174,10 @@ private:
     template <size_type _order, typename _unused = int>
     struct det_impl
     {
-        static value_type eval(const matrixnxnt<_order, value_type, _this_type>& m)
+        static _type eval(const matrixnxnt<_order, _type, _this_type>& m)
         {
             //laplace
-            value_type det = 0;
+            _type det = 0;
 
             for(size_type i=0; i<_d; ++i)
             {
@@ -162,7 +191,7 @@ private:
     template <typename _unused>
     struct det_impl<2, _unused>
     {
-        static value_type eval(const matrixnxnt<2, value_type, _this_type>& m)
+        static _type eval(const matrixnxnt<2, _type, _this_type>& m)
         {
             return m(0, 0)*m(1, 1) - m(0, 1)*m(1, 0);
         }
@@ -171,22 +200,20 @@ private:
 };
 
 template <size_t _order, typename _type, typename _this_type>
-_this_type& operator*=(const matrixnxnt<_order, _type, _this_type>& a, const matrixnxnt<_order, _type, _this_type>& b)
+_this_type operator*(const matrixnxnt<_order, _type, _this_type>& a, const matrixnxnt<_order, _type, _this_type>& b)
 {
     matrixnxnt<_order, _type, _this_type> result;
 
     return matrixnxn_multiply<false>(result, a, b);
-
-    return result;
 }
 
 template <bool copy, size_t _order, typename _type, typename _this_type>
-const matrixnxnt<_order, _type, _this_type>& matrixnxn_multiply(
+_this_type& matrixnxn_multiply(
     matrixnxnt<_order, _type, _this_type>& out_result, 
     const matrixnxnt<_order, _type, _this_type>& a, 
     const matrixnxnt<_order, _type, _this_type>& b)
 {
-    matrixnxnt<_order, _type, _this_type>& copy_matrix;
+    matrixnxnt<_order, _type, _this_type> copy_matrix;
     matrixnxnt<_order, _type, _this_type>& result = copy ? copy_matrix : out_result;
 
     for(size_t i=0; i<_order; ++i)
@@ -205,7 +232,7 @@ const matrixnxnt<_order, _type, _this_type>& matrixnxn_multiply(
     if(copy)
         out_result = copy_matrix;
 
-    return result;
+    return result.as_this_type();
 }
 
 } // namespace _internal
@@ -221,8 +248,8 @@ class matrix2x2t : public _internal::matrixnxnt<2, _type, matrix2x2t<_type>>
 {
 public:
     static matrix2x2t columns(
-        value_type cr00, value_type cr01, //column 1
-        value_type cr10, value_type cr11  //column 2
+        _type cr00, _type cr01, //column 1
+        _type cr10, _type cr11  //column 2
         )
     {
         matrix2x2t ret;
@@ -232,8 +259,8 @@ public:
     }
 
     static matrix2x2t rows(
-        value_type rc00, value_type rc01, //row 1
-        value_type rc10, value_type rc11 //row 2
+        _type rc00, _type rc01, //row 1
+        _type rc10, _type rc11 //row 2
         )
     {
         matrix2x2t ret;
@@ -248,9 +275,9 @@ class matrix3x3t : public _internal::matrixnxnt<3, _type, matrix3x3t<_type>>
 {
 public:
     static matrix3x3t columns(
-        value_type cr00, value_type cr01, value_type cr02, //column 1
-        value_type cr10, value_type cr11, value_type cr12, //column 2
-        value_type cr20, value_type cr21, value_type cr22  //column 3
+        _type cr00, _type cr01, _type cr02, //column 1
+        _type cr10, _type cr11, _type cr12, //column 2
+        _type cr20, _type cr21, _type cr22  //column 3
         )
     {
         matrix3x3t ret;
@@ -261,9 +288,9 @@ public:
     }
 
     static matrix3x3t rows(
-        value_type rc00, value_type rc01, value_type rc02, //row 1
-        value_type rc10, value_type rc11, value_type rc12, //row 2
-        value_type rc20, value_type rc21, value_type rc22  //row 3
+        _type rc00, _type rc01, _type rc02, //row 1
+        _type rc10, _type rc11, _type rc12, //row 2
+        _type rc20, _type rc21, _type rc22  //row 3
         )
     {
         matrix3x3t ret;
@@ -279,10 +306,10 @@ class matrix4x4t : public _internal::matrixnxnt<4, _type, matrix4x4t<_type>>
 {
 public:
     static matrix4x4t columns(
-        value_type cr00, value_type cr01, value_type cr02, value_type cr03, //column 1
-        value_type cr10, value_type cr11, value_type cr12, value_type cr13, //column 2
-        value_type cr20, value_type cr21, value_type cr22, value_type cr23, //column 3
-        value_type cr30, value_type cr31, value_type cr32, value_type cr33  //column 4
+        _type cr00, _type cr01, _type cr02, _type cr03, //column 1
+        _type cr10, _type cr11, _type cr12, _type cr13, //column 2
+        _type cr20, _type cr21, _type cr22, _type cr23, //column 3
+        _type cr30, _type cr31, _type cr32, _type cr33  //column 4
         )
     {
         matrix4x4t ret;
@@ -294,10 +321,10 @@ public:
     }
 
     static matrix4x4t rows(
-        value_type rc00, value_type rc01, value_type rc02, value_type rc03, //row 1
-        value_type rc10, value_type rc11, value_type rc12, value_type rc13, //row 2
-        value_type rc20, value_type rc21, value_type rc22, value_type rc23, //row 3
-        value_type rc30, value_type rc31, value_type rc32, value_type rc33  //row 4
+        _type rc00, _type rc01, _type rc02, _type rc03, //row 1
+        _type rc10, _type rc11, _type rc12, _type rc13, //row 2
+        _type rc20, _type rc21, _type rc22, _type rc23, //row 3
+        _type rc30, _type rc31, _type rc32, _type rc33  //row 4
         )
     {
         matrix4x4t ret;

@@ -18,9 +18,9 @@ class vectornt : public ntuple<_n, _type, _this_type>
 public:
     static const size_type dimension = value_count;
 
-    value_type length_sq() const
+    _type length_sq() const
     {
-        value_type result = 0;
+        _type result = 0;
 
         MATHGP_FOR_VALUES(i)
             result += sq(a.at(i));
@@ -28,7 +28,7 @@ public:
         return result;
     }
 
-    value_type length() const
+    _type length() const
     {
         return std::sqrt(length_sq());
     }
@@ -67,28 +67,6 @@ _this_type normalized(const vectornt<_dim, _type, _this_type>& a)
 
     return ret;
 }
-
-#if defined(_OSTREAM_)
-template <size_t _n, typename _type, typename _this_type>
-::std::ostream& operator<<(::std::ostream& o, const vectornt<_n, _type, _this_type>& vec)
-{
-    typedef mathgp::_internal::vectornt<_n, _type, _this_type> vector;
-
-    o << '(';
-    for(typename vector::size_type i=0; i<vector::dimension; ++i)
-    {
-        if(i)
-        {
-            o << ", ";
-        }
-
-        o << vec.at(i);
-    }
-    o << ')';
-
-    return o;
-}
-#endif
 
 #if !defined(MATHGP_DISABLE_SWIZZLE)
 
@@ -163,7 +141,7 @@ public:
     ////////////////////////////////////////////////////////
     // named constructors
 
-    static vector1t coord(value_type x)
+    static vector1t coord(_type x)
     {
         vector1t ret;
 
@@ -193,7 +171,7 @@ public:
     ////////////////////////////////////////////////////////
     // named constructors
 
-    static vector2t coord(value_type x, value_type y)
+    static vector2t coord(_type x, _type y)
     {
         vector2t ret;
 
@@ -239,7 +217,7 @@ public:
     ////////////////////////////////////////////////////////
     // named constructors
 
-    static vector3t coord(value_type x, value_type y, value_type z)
+    static vector3t coord(_type x, _type y, _type z)
     {
         vector3t ret;
 
@@ -260,7 +238,7 @@ public:
 
         for (size_t i=0; i<3; ++i)
         {
-            if (std::abs(at(i)) > constants<value_type>::EPSILON())
+            if (std::abs(at(i)) > constants<_type>::EPSILON())
             {
                 ++non_zeros;
                 non_zero_index = i;
@@ -313,7 +291,7 @@ public:
     ////////////////////////////////////////////////////////
     // named constructors
 
-    static vector4t coord(value_type x, value_type y, value_type z, value_type w)
+    static vector4t coord(_type x, _type y, _type z, _type w)
     {
         vector4t ret;
 

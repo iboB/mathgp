@@ -106,9 +106,12 @@
     <ClInclude Include="..\mathgp\vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="geometry.cpp" />
+    <ClCompile Include="arithmetic.cpp" />
     <ClCompile Include="construction_and_access.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="prerequisites.cpp" />
+    <ClCompile Include="specific_3d.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
