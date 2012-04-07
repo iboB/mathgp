@@ -22,6 +22,10 @@ void ntuple_arithmetic()
 
 void vector_arithmetic()
 {
+    vector3 v1 = vector3::uniform(1);
+    vector3 v6 = 6.f * v1;
+
+    BOOST_CHECK_EQUAL(v6, vector3::coord(6, 6, 6));    
 }
 
 void matrix_arithmetic()

@@ -31,6 +31,20 @@ using namespace mathgp;
 static int slices = 16;
 static int stacks = 16;
 
+static float cam_angle = 0;
+
+static void apply_view_matrix()
+{
+    static const point3 cam_center = point3::coord(0, 0, -6);
+
+    point3 cam_pos = point3::zero();
+    cam_pos.xz() = 6.f*v(std::sin(cam_angle), std::cos(cam_angle));
+    cam_pos += cam_center;
+
+    matrix view = matrix::look_at_rh(cam_pos, cam_center, point3::coord(0, 1, 0));
+    glLoadMatrixf(view.as_array());
+}
+
 /* GLUT callback Handlers */
 
 static void resize(int width, int height)
@@ -49,7 +63,7 @@ static void resize(int width, int height)
     glLoadMatrixf(projection.as_array());
 
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity() ;
+    apply_view_matrix();
 }
 
 static void display(void)
@@ -127,6 +141,17 @@ static void key(unsigned char key, int x, int y)
                 stacks--;
             }
             break;
+
+        case 'a':
+            cam_angle += 0.05f;
+            apply_view_matrix();
+            break;
+
+        case 'd':
+            cam_angle -= 0.05f;
+            apply_view_matrix();
+            break;
+
     }
 
     glutPostRedisplay();

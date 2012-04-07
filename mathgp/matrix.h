@@ -7,6 +7,7 @@
 
 #include "functions.h"
 #include "ntuple.h"
+#include "vector.h"
 
 namespace mathgp
 {
@@ -80,6 +81,18 @@ public:
         return m(row, column);
     }
 
+    template <size_t _dim>
+    typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset = 0)
+    {
+        return *reinterpret_cast<typename vector_space<_dim, _type>::vector*>(column(col) + offset);
+    }
+
+    template <size_t _dim>
+    const typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset = 0) const
+    {
+        return *reinterpret_cast<const typename vector_space<_dim, _type>::vector*>(column(col) + offset);
+    }
+
     order_vector& column_vector(size_t col)
     {
         return *reinterpret_cast<order_vector*>(column(col));
@@ -88,18 +101,6 @@ public:
     const order_vector& column_vector(size_t col) const
     {
         return *reinterpret_cast<order_vector*>(column(col));
-    }
-
-    template <size_t _dim>
-    typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset)
-    {
-        return *reinterpret_cast<typename vector_space<_dim, _type>::vector*>(column(col) + offset);
-    }
-
-    template <size_t _dim>
-    const typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset) const
-    {
-        return *reinterpret_cast<const typename vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
     order_vector row_vector(size_t row) const
@@ -440,6 +441,51 @@ public:
         return perspective_fov_lh(fovy, aspect, near, far).proj_lh_to_rh();
     }
 
+    ////////////////////////////////////////////////////////
+    // view
+    static matrix4x4t look_towards(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
+    {
+        vector3t<_type> front = normalized(dir);
+        vector3t<_type> right = normalized(cross(up, front));
+        vector3t<_type> up2 = cross(front, right); //since the original up is not to be trusted
+
+        vector3t<_type> shift = vector3t<_type>::coord(
+            -dot(right, eye),
+            -dot(up2, eye),
+            -dot(front, eye)
+        );
+
+        return basis_transform(shift, right, up, front);
+    }
+
+    //static matrix4x4t look_towards_rh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
+    //{
+    //    matrix4x4t ret = look_towards_lh(eye, dir, up);
+    //    flip_sign(ret.template column_vector<3>(3));
+    //    return ret;
+    //}
+
+    static matrix4x4t look_at_lh(const vector3t<_type>& eye, const vector3t<_type>& at, const vector3t<_type>& up)
+    {
+        return look_towards(eye, at-eye, up);
+    }
+
+    static matrix4x4t look_at_rh(const vector3t<_type>& eye, const vector3t<_type>& at, const vector3t<_type>& up)
+    {
+        return look_towards(eye, eye-at, up);
+    }
+
+    ////////////////////////////////////////////////////////
+    // transforms
+    static matrix4x4t basis_transform(const vector3t<_type>& o, const vector3t<_type>& e1, const vector3t<_type>& e2, const vector3t<_type>& e3)
+    {
+        return matrix4x4t::rows(
+            e1.x(), e1.y(), e1.z(), o.x(),
+            e2.x(), e2.y(), e2.z(), o.y(),
+            e3.x(), e3.y(), e3.z(), o.z(),
+            0,      0,      0,      1
+        );
+    }
 protected:
 
     matrix4x4t& proj_lh_to_rh()
