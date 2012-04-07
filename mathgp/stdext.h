@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -36,7 +36,7 @@ inline std::ostream& operator<<(std::ostream& out, const _internal::matrixnxnt<_
 {
     typedef _internal::matrixnxnt<_n, _type, _this_type> matrix;
 
-	for(matrix::size_type i=0; i<matrix::order; ++i)
+	for(typename matrix::size_type i=0; i<matrix::order; ++i)
 	{
 		if(i)
 			out << '\n';

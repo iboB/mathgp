@@ -1,10 +1,11 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
+#include "constants.h"
 #include "ntuple.h"
 
 namespace mathgp
@@ -15,15 +16,16 @@ namespace _internal
 template <size_t _n, typename _type, typename _this_type>
 class vectornt : public ntuple<_n, _type, _this_type>
 {
+    //typedef ntuple<_n, _type, _this_type> parent;
 public:
-    static const size_type dimension = value_count;
+    static const size_t dimension = _n;
 
     _type length_sq() const
     {
         _type result = 0;
 
         MATHGP_FOR_VALUES(i)
-            result += sq(a.at(i));
+            result += sq(this->at(i));
 
         return result;
     }
@@ -39,8 +41,8 @@ public:
     }
 };
 
-template <size_t _dim, typename _type, typename _this_type>
-_type dot(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+template <size_t _n, typename _type, typename _this_type>
+_type dot(const vectornt<_n, _type, _this_type>& a, const vectornt<_n, _type, _this_type>& b)
 {
     _type result = 0;
 
@@ -56,8 +58,8 @@ bool orthogonal(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim,
     return std::abs(dot(a, b)) < constants<_type>::EPSILON();
 }
 
-template <size_t _dim, typename _type, typename _this_type>
-_this_type normalized(const vectornt<_dim, _type, _this_type>& a)
+template <size_t _n, typename _type, typename _this_type>
+_this_type normalized(const vectornt<_n, _type, _this_type>& a)
 {
     _type length = a.length();
 
@@ -92,22 +94,22 @@ template <size_t _n, typename _type, typename _this_type>
 class swizzle_vectornt : public vectornt<_n, wrap_ref<_type>, _this_type>
 {
 public:
-    
+
     operator _this_type() const
     {
         _this_type ret;
 
-        MATHGP_EACH_OF(ret) = at(i);
+        MATHGP_EACH_OF(ret) = this->at(i);
 
         return ret;
     }
 
     // intentionally void
     // it breaks a=b=c, but gets rid of unwanted temporary objects
-    void operator=(const vectornt<dimension, _type, _this_type>& b)
+    void operator=(const vectornt<_n, _type, _this_type>& b)
     {
-        for(size_type i=0; i<value_count; ++i) 
-            *at(i).ref = b.at(i);    
+        for(size_t i=0; i<_n; ++i)
+            *this->at(i).ref = b.at(i);
     }
 
 private:
@@ -186,7 +188,7 @@ public:
 
     vector2t get_orthogonal() const
     {
-        return vector2::coord(-y(), x());
+        return vector2t::coord(-y(), x());
     }
 
 #include "vector1_swizzle.inl"
@@ -238,7 +240,7 @@ public:
 
         for (size_t i=0; i<3; ++i)
         {
-            if (std::abs(at(i)) > constants<_type>::EPSILON())
+            if (std::abs(this->at(i)) > constants<_type>::EPSILON())
             {
                 ++non_zeros;
                 non_zero_index = i;
@@ -247,13 +249,13 @@ public:
 
         if (non_zeros >= 2)
         {
-            return Vector::coord(y() * z() / 2, x() * z() / 2, -x() * y());
+            return vector3t::coord(y() * z() / 2, x() * z() / 2, -x() * y());
         }
         else
         {
             vector3t ret = vector3t::zero();
 
-            ret.at((non_zero_index + 1) % 3) = at(nonZeroIndex);
+            ret.at((non_zero_index + 1) % 3) = this->at(non_zero_index);
             return ret;
         }
     }
@@ -385,25 +387,25 @@ struct vector_space
 };
 
 template <typename _type>
-struct vector_space<1, typename _type>
+struct vector_space<1, _type>
 {
     typedef vector1t<_type> vector;
 };
 
 template <typename _type>
-struct vector_space<2, typename _type>
+struct vector_space<2, _type>
 {
     typedef vector2t<_type> vector;
 };
 
 template <typename _type>
-struct vector_space<3, typename _type>
+struct vector_space<3, _type>
 {
     typedef vector3t<_type> vector;
 };
 
 template <typename _type>
-struct vector_space<4, typename _type>
+struct vector_space<4, _type>
 {
     typedef vector4t<_type> vector;
 };

@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -50,9 +50,9 @@ public:
         _this_type ret;
 
         //could use memcpy, but it's probably slower...
-        //for should be optimized at compile time.        
+        //for should be optimized at compile time.
         MATHGP_EACH_OF(ret) = ptr[i];
-        
+
         return ret;
     }
 
@@ -238,7 +238,7 @@ _this_type operator*(const _type& scalar,
 {
     _this_type ret;
 
-    MATHGP_EACH_OF(ret) = scalar * a.at(i);
+    MATHGP_EACH_OF(ret) = scalar * b.at(i);
 
     return ret;
 }

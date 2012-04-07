@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -46,22 +46,22 @@ public:
 
     _type& re()
     {
-        return at(0);
+        return this->at(0);
     }
 
     const _type& re() const
     {
-        return at(0);
+        return this->at(0);
     }
 
     _type& im()
     {
-        return at(1);
+        return this->at(1);
     }
 
     const _type& im() const
     {
-        return at(1);
+        return this->at(1);
     }
 };
 

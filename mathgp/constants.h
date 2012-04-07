@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -43,19 +43,19 @@ public:
         return _type(1.4142135623730950488016887242097);
     }
 
-    static Type EPSILON() //epsilon for floating point equalities
+    static _type EPSILON() //epsilon for floating point equalities
     {
-        return Type(1e-5);
+        return _type(1e-5);
     }
 
-    static Type EPSILON_LOW() //low precision epsilon
+    static _type EPSILON_LOW() //low precision epsilon
     {
-        return Type(1e-3);
+        return _type(1e-3);
     }
 
-    static Type EPSILON_HIGH() //high precision epsilon
+    static _type EPSILON_HIGH() //high precision epsilon
     {
-        return Type(1e-7);
+        return _type(1e-7);
     }
 };
 

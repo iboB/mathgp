@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -9,14 +9,29 @@
 
 namespace mathgp
 {
+
+template <size_t _order, typename _type>
+struct matrix_space
+{
+};
+
 namespace _internal
 {
+
+template <size_t _n, typename _type, typename _this_type>
+class matrixnxnt;
+
+template <bool copy, size_t _order, typename _type, typename _this_type>
+_this_type& matrixnxn_multiply(
+    matrixnxnt<_order, _type, _this_type>& out_result,
+    const matrixnxnt<_order, _type, _this_type>& a,
+    const matrixnxnt<_order, _type, _this_type>& b);
 
 template <size_t _n, typename _type, typename _this_type>
 class matrixnxnt : public ntuple<_n*_n, _type, _this_type>
 {
 public:
-    static const size_type order = _n;
+    static const size_t order = _n;
 
     typedef typename vector_space<order, _type>::vector order_vector;
 
@@ -26,7 +41,7 @@ public:
     {
         _this_type ret = _this_type::zero();
 
-        for(size_type i=0; i<order; ++i) 
+        for(size_t i=0; i<order; ++i)
             ret.m(i, i) = _type(1);
 
         return ret;
@@ -34,63 +49,63 @@ public:
 
     ////////////////////////////////////////////////////////
     // access
-    _type* column(size_type i)
+    _type* column(size_t i)
     {
-        return as_array() + i*order;
+        return this->as_array() + i*order;
     }
 
-    const _type* column(size_type i) const        
+    const _type* column(size_t i) const
     {
-        return as_array() + i*order;
+        return this->as_array() + i*order;
     }
 
-    _type& m(size_type row, size_type column)
+    _type& m(size_t row, size_t column)
     {
         return this->column(column)[row];
     }
 
-    const _type& m(size_type row, size_type column) const
+    const _type& m(size_t row, size_t column) const
     {
         return this->column(column)[row];
     }
-    
-    _type& operator()(size_type row, size_type column)
+
+    _type& operator()(size_t row, size_t column)
     {
         return m(row, column);
     }
 
-    const _type& operator()(size_type row, size_type column) const
+    const _type& operator()(size_t row, size_t column) const
     {
         return m(row, column);
     }
 
-    order_vector& column_vector(size_type col)
+    order_vector& column_vector(size_t col)
     {
         return *reinterpret_cast<order_vector>(column(col));
     }
 
-    const order_vector& column_vector(size_type col) const
+    const order_vector& column_vector(size_t col) const
     {
         return *reinterpret_cast<order_vector>(column(col));
     }
 
-    template <size_type _dim>
-    typename vector_space<_dim, _type>::vector& column_vector(size_type col, size_t offset)
+    template <size_t _dim>
+    typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset)
     {
-        return *reinterpret_cast<vector_space<_dim, _type>::vector*>(column(col) + offset);
+        return *reinterpret_cast<typename vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
-    template <size_type _dim>
-    const typename vector_space<_dim, _type>::vector& column_vector(size_type col, size_t offset) const
+    template <size_t _dim>
+    const typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset) const
     {
-        return *reinterpret_cast<const vector_space<_dim, _type>::vector*>(column(col) + offset);
+        return *reinterpret_cast<const typename vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
-    order_vector row_vector(size_type row) const
+    order_vector row_vector(size_t row) const
     {
         order_vector vec;
 
-        for(size_type col=0; col<order; ++col)
+        for(size_t col=0; col<order; ++col)
         {
             vec.at(col) = this->column(col)[row];
         }
@@ -98,12 +113,12 @@ public:
         return vec;
     }
 
-    template <size_type _dim>
-    typename vector_space<_dim, _type>::vector& row_vector(size_type i, size_t offset) const
+    template <size_t _dim>
+    typename vector_space<_dim, _type>::vector& row_vector(size_t row, size_t offset) const
     {
         typename vector_space<_dim, _type>::vector vec;
 
-        for(size_type col=offset; col<_dim; ++col)
+        for(size_t col=offset; col<_dim; ++col)
         {
             vec.at(col) = this->column(col)[row];
         }
@@ -121,30 +136,30 @@ public:
     ////////////////////////////////////////////////////////
     // functions
 
-    _type adjunct(size_type row, size_type col) const
+    _type adjunct(size_t row, size_t col) const
     {
          return first_minor(row, col) * (((row+col)&1)?_type(-1):_type(1));
     }
 
-    _type first_minor(size_type row, size_type col) const
+    _type first_minor(size_t row, size_t col) const
     {
-        matrixnxnt<order-1, _type> minor;
+        typename matrix_space<order-1, _type>::matrix minor;
 
-        for(size_type r=0; r<row; ++r)
+        for(size_t r=0; r<row; ++r)
         {
-            for(size_type c=0; c<col; ++c)
+            for(size_t c=0; c<col; ++c)
                 minor(r, c) = (*this)(r, c);
 
-            for(size_type c=col+1; c<order; ++c)
+            for(size_t c=col+1; c<order; ++c)
                 minor(r, c-1) = (*this)(r, c);
         }
 
-        for(size_type r=row+1; r<order; ++r)
+        for(size_t r=row+1; r<order; ++r)
         {
-            for(size_type c=0; c<col; ++c)
+            for(size_t c=0; c<col; ++c)
                 minor(r-1, c) = (*this)(r, c);
 
-            for(size_type c=col+1; c<order; ++c)
+            for(size_t c=col+1; c<order; ++c)
                 minor(r-1, c-1) = (*this)(r, c);
         }
 
@@ -158,11 +173,12 @@ public:
 
 
 private:
-    template <bool copy, size_t _order, typename _type, typename _this_type>
-    friend _this_type& matrixnxn_multiply(
-        matrixnxnt<_order, _type, _this_type>& out_result, 
-        const matrixnxnt<_order, _type, _this_type>& a, 
-        const matrixnxnt<_order, _type, _this_type>& b);
+    // renamed template arguments, because they're shadowed otherwise;
+    template <bool copy, size_t _o, typename _t, typename _tt>
+    friend _tt& mathgp::_internal::matrixnxn_multiply(
+        matrixnxnt<_o, _t, _tt>& out_result,
+        const matrixnxnt<_o, _t, _tt>& a,
+        const matrixnxnt<_o, _t, _tt>& b);
 
     //_unused is a stupid gcc workaround
     //it doesn't allow fully specialized member types, or any specialization of methods
@@ -171,7 +187,7 @@ private:
     //As http://tinyurl.com/bmaa9yh suggests, this is (unexplicably) fobidden by the standard.
     //One would wonder why this is so, considering that it works fine with msvc without the dummy type
     //and even as a specialized template method.
-    template <size_type _order, typename _unused = int>
+    template <size_t _order, typename _unused = int>
     struct det_impl
     {
         static _type eval(const matrixnxnt<_order, _type, _this_type>& m)
@@ -179,7 +195,7 @@ private:
             //laplace
             _type det = 0;
 
-            for(size_type i=0; i<_d; ++i)
+            for(size_t i=0; i<_order; ++i)
             {
                 det += m(0, i) * m.adjunct(0, i);
             }
@@ -209,8 +225,8 @@ _this_type operator*(const matrixnxnt<_order, _type, _this_type>& a, const matri
 
 template <bool copy, size_t _order, typename _type, typename _this_type>
 _this_type& matrixnxn_multiply(
-    matrixnxnt<_order, _type, _this_type>& out_result, 
-    const matrixnxnt<_order, _type, _this_type>& a, 
+    matrixnxnt<_order, _type, _this_type>& out_result,
+    const matrixnxnt<_order, _type, _this_type>& a,
     const matrixnxnt<_order, _type, _this_type>& b)
 {
     matrixnxnt<_order, _type, _this_type> copy_matrix;
@@ -221,7 +237,7 @@ _this_type& matrixnxn_multiply(
         for(size_t j=0; j<_order; ++j)
         {
             result(i, j) = 0;
-                    
+
             for(size_t k=0; k<_order; ++k)
             {
                 result(i, j) += a(i, k) * b(k, j);
@@ -336,32 +352,26 @@ public:
     }
 };
 
-template <size_t _order, typename _type>
-struct matrix_space
-{
-    //typedef vectorntx<_dim, _type> vector;
-};
-
 template <typename _type>
-struct matrix_space<1, typename _type>
+struct matrix_space<1,  _type>
 {
     typedef matrix1x1t<_type> matrix;
 };
 
 template <typename _type>
-struct matrix_space<2, typename _type>
+struct matrix_space<2, _type>
 {
     typedef matrix2x2t<_type> matrix;
 };
 
 template <typename _type>
-struct matrix_space<3, typename _type>
+struct matrix_space<3, _type>
 {
     typedef matrix3x3t<_type> matrix;
 };
 
 template <typename _type>
-struct matrix_space<4, typename _type>
+struct matrix_space<4, _type>
 {
     typedef matrix4x4t<_type> matrix;
 };

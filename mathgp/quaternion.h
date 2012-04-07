@@ -1,7 +1,7 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
-//   
-//  See the LICENSE.txt file, included in this 
+//
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 #pragma once
 
@@ -35,44 +35,44 @@ public:
 
     ////////////////////////////////////////////////////////
     // access
-    value_type& x()
+    _type& x()
     {
-        return at(0);
+        return this->at(0);
     }
 
-    const value_type& x() const
+    const _type& x() const
     {
-        return at(0);
+        return this->at(0);
     }
 
-    value_type& y()
+    _type& y()
     {
-        return at(1);
+        return this->at(1);
     }
 
-    const value_type& y() const
+    const _type& y() const
     {
-        return at(1);
+        return this->at(1);
     }
 
-    value_type& z()
+    _type& z()
     {
-        return at(2);
+        return this->at(2);
     }
 
-    const value_type& z() const
+    const _type& z() const
     {
-        return at(2);
+        return this->at(2);
     }
 
-    value_type& w()
+    _type& w()
     {
-        return at(3);
+        return this->at(3);
     }
 
-    const value_type& w() const
+    const _type& w() const
     {
-        return at(3);
+        return this->at(3);
     }
 };
 

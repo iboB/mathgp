@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <mathgp/mathgp.h>
+#include <mathgp/stdext.h>
 
 using namespace std;
 using namespace mathgp;

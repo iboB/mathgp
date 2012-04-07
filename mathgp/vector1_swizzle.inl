@@ -1,9 +1,9 @@
-value_type& x()
+_type& x()
 {
-    return at(0);
+    return this->at(0);
 }
 
-const value_type& x() const
+const _type& x() const
 {
-    return at(0);
+    return this->at(0);
 }

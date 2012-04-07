@@ -1,7 +1,14 @@
 # visual studio specific
 *.suo
 *.sdf
+*.opensdf
 *.user
 
 test/Debug/
 test/ipch/
+
+#code blocks stuff
+*.depend
+
+test/bin/
+test/obj/
