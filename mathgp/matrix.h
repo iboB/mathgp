@@ -5,6 +5,7 @@
 //  distribution for details about the copyright
 #pragma once
 
+#include "functions.h"
 #include "ntuple.h"
 
 namespace mathgp
@@ -81,12 +82,12 @@ public:
 
     order_vector& column_vector(size_t col)
     {
-        return *reinterpret_cast<order_vector>(column(col));
+        return *reinterpret_cast<order_vector*>(column(col));
     }
 
     const order_vector& column_vector(size_t col) const
     {
-        return *reinterpret_cast<order_vector>(column(col));
+        return *reinterpret_cast<order_vector*>(column(col));
     }
 
     template <size_t _dim>
@@ -349,6 +350,102 @@ public:
         ret(0, 2) = rc02; ret(1, 2) = rc12; ret(2, 2) = rc22; ret(3, 2) = rc32;
         ret(0, 3) = rc03; ret(1, 3) = rc13; ret(2, 3) = rc23; ret(3, 3) = rc33;
         return ret;
+    }
+
+    ////////////////////////////////////////////////////////
+    // projection
+    static matrix4x4t ortho_lh(_type width, _type height, _type near, _type far)
+    {
+        _type depth = far - near;
+        return matrix4x4t::rows(
+            2/width, 0,        0,          0,
+            0,       2/height, 0,          0,
+            0,       0,        1/depth,   -1/depth,
+            0,       0,        0,          1);
+    }
+
+    static matrix4x4t ortho_rh(_type width, _type height, _type near, _type far)
+    {
+        return ortho_lh(width, height, near, far).proj_lh_to_rh();
+    }
+
+    // off center
+    static matrix4x4t ortho_lh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    {
+        _type width = right - left;
+        _type height = top - bottom;
+
+        matrix4x4t ret = ortho_lh(width, height, near, far);
+
+        ret(0, 3) = -(left + right)/width;
+        ret(1, 3) = -(top + bottom)/height;
+
+        return ret;
+    }
+
+    static matrix4x4t ortho_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    {
+        return ortho_lh(left, right, bottom, top, near, far).proj_lh_to_rh();
+    }
+
+    static matrix4x4t perspective_lh(_type width, _type height, _type near, _type far)
+    {
+        _type depth = far - near;
+        return matrix4x4t::rows(
+            (2*near)/width, 0,             0,          0,
+            0,            (2*near)/height, 0,          0,
+            0,            0,               far/depth, -(far*near)/depth,
+            0,            0,               1,          0);
+    }
+
+    static matrix4x4t perspective_rh(_type width, _type height, _type near, _type far)
+    {
+        return perspective_lh(width, height, near, far).proj_lh_to_rh();
+    }
+
+    // off center
+    static matrix4x4t perspective_lh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    {
+        _type width = right - left;
+        _type height = top - bottom;
+
+        matrix4x4t ret = perspective_lh(width, height, near, far);
+
+        ret(0, 3) = -(left + right)/width;
+        ret(1, 3) = -(top + bottom)/height;
+
+        return ret;
+    }
+
+    static matrix4x4t perspective_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    {
+        return perspective_lh(left, right, bottom, top, near, far).proj_lh_to_rh();
+    }
+
+    static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near, _type far)
+    {
+        _type yscale = _type(1)/std::tan(fovy/2); //cot(fovy/2)
+		_type xscale = yscale/aspect;
+        _type depth = far - near;
+
+        return matrix4x4t::rows(
+            xscale, 0,      0,          0,
+            0,      yscale, 0,          0,
+            0,      0,      far/depth, -(far*near)/depth,
+            0,      0,      1,          0);
+    }
+
+    static matrix4x4t perspective_fov_rh(_type fovy, _type aspect, _type near, _type far)
+    {
+        return perspective_fov_lh(fovy, aspect, near, far).proj_lh_to_rh();
+    }
+
+protected:
+
+    matrix4x4t& proj_lh_to_rh()
+    {
+        flip_sign(this->column_vector(2));
+        return *this;
     }
 };
 

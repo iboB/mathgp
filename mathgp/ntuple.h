@@ -150,7 +150,7 @@ public:
     {
         _this_type ret;
 
-        MATHGP_EACH_VAL = -at(i);
+        MATHGP_EACH_OF(ret) = -at(i);
 
         return ret;
     }

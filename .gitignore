@@ -9,6 +9,11 @@ test/ipch/
 
 #code blocks stuff
 *.depend
+*.layout
 
 test/bin/
 test/obj/
+
+#examples
+examples/bin/
+examples/OpenGLFixed/obj/
