@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// stdext.h - some standard library specific extensions for MathGP
 #pragma once
 
 #include <ostream>

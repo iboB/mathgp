@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// constants.h - useful generic constants
 #pragma once
 
 namespace mathgp

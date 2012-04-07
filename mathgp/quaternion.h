@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// quaternion.h - definition of the quaternion class
 #pragma once
 
 #include "ntuple.h"

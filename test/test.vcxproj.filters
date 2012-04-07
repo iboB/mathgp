@@ -80,6 +80,9 @@
     <ClInclude Include="..\mathgp\quaternion.h">
       <Filter>mathgp</Filter>
     </ClInclude>
+    <ClInclude Include="..\mathgp\glext.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

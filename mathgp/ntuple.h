@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// ntuple.h - definition of the ntuple class
 #pragma once
 
 #include "defines.h"

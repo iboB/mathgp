@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// functions.h - generic functions used throughout the library
 #pragma once
 
 namespace mathgp
@@ -24,6 +26,18 @@ template <typename _type, typename _scalar>
 inline _type lerp(const _type& from, const _type& to, const _scalar ratio)
 {
     return from + ratio * (to - from);
+}
+
+template <typename _type>
+_type rad_to_deg(const _type& radians)
+{
+    return radians * (_type(180) / constants<_type>::PI());
+}
+
+template <typename _type>
+_type deg_to_rad(const _type& degrees)
+{
+    return degrees * (constants<_type>::PI() / _type(180));
 }
 
 } // namespace mathgp

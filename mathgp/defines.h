@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// defines.h - macros and definitions used throughout the library
 #pragma once
 
 #include <cmath>

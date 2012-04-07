@@ -3,6 +3,8 @@
 //   
 //  See the LICENSE.txt file, included in this 
 //  distribution for details about the copyright
+
+// mathgp.h - main header to include. Includes everything except the extension headers
 #pragma once
 
 //#define MATHGP_DISABLE_SWIZZLE

@@ -25,6 +25,7 @@
 #include <stdlib.h>
 
 #include <mathgp/mathgp.h>
+#include <mathgp/glext.h>
 
 using namespace mathgp;
 
@@ -42,7 +43,7 @@ static void apply_view_matrix()
     cam_pos += cam_center;
 
     matrix view = matrix::look_at_rh(cam_pos, cam_center, point3::coord(0, 1, 0));
-    glLoadMatrixf(view.as_array());
+    glLoadMatrix(view);
 }
 
 /* GLUT callback Handlers */
@@ -60,7 +61,7 @@ static void resize(int width, int height)
         //matrix::ortho_rh(0, 2.5f*ar, 0, 2.5f, 2, 100);
         //matrix::perspective_rh(0, 2*ar, 0, 2, 2, 100);
         matrix::perspective_fov_rh(constants<float>::PI()/3, ar, 2, 100);
-    glLoadMatrixf(projection.as_array());
+    glLoadMatrix(projection);
 
     glMatrixMode(GL_MODELVIEW);
     apply_view_matrix();
@@ -74,45 +75,43 @@ static void display(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3d(1,0,0);
 
+    matrix common_rotate =
+        matrix::rotation_x(deg_to_rad(60.f)) *
+        matrix::rotation_z(deg_to_rad(a));
+
     glPushMatrix();
         glTranslated(-2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutSolidSphere(1,slices,stacks);
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(0,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutSolidCone(1,1,slices,stacks);
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutSolidTorus(0.2,0.8,slices,stacks);
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(-2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutWireSphere(1,slices,stacks);
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(0,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutWireCone(1,1,slices,stacks);
     glPopMatrix();
 
     glPushMatrix();
         glTranslated(2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
+        glMultMatrix(common_rotate);
         glutWireTorus(0.2,0.8,slices,stacks);
     glPopMatrix();
 

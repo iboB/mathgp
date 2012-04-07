@@ -96,6 +96,7 @@
     <ClInclude Include="..\mathgp\constants.h" />
     <ClInclude Include="..\mathgp\defines.h" />
     <ClInclude Include="..\mathgp\functions.h" />
+    <ClInclude Include="..\mathgp\glext.h" />
     <ClInclude Include="..\mathgp\mathgp.h" />
     <ClInclude Include="..\mathgp\matrix.h" />
     <ClInclude Include="..\mathgp\ntuple.h" />

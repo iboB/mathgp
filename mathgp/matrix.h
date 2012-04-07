@@ -3,6 +3,8 @@
 //
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+
+// matrix.h - definition of the matrix classes
 #pragma once
 
 #include "functions.h"
@@ -45,6 +47,16 @@ public:
 
         for(size_t i=0; i<order; ++i)
             ret.m(i, i) = _type(1);
+
+        return ret;
+    }
+
+    static _this_type scaling(const order_vector& scale)
+    {
+        _this_type ret = _this_type::zero();
+
+        for(size_t i=0; i<order; ++i)
+            ret.m(i, i) = scale.at(i);
 
         return ret;
     }
@@ -317,11 +329,84 @@ public:
         ret(0, 2) = rc02; ret(1, 2) = rc12; ret(2, 2) = rc22;
         return ret;
     }
+
+    ////////////////////////////////////////////////////////
+    // transforms
+    static matrix3x3t rotation_axis(const vector3t<_type>& axis, _type radians)
+    {
+        const vector3t<_type> naxis = normalized(axis);
+
+        const _type c = std::cos(radians);
+        const _type s = std::sin(radians);
+        const _type c1 = 1 - c;
+        const _type x = naxis.x();
+        const _type y = naxis.y();
+        const _type z = naxis.z();
+
+        return matrix3x3t::rows(
+            c + c1*sq(x),   c1*y*x - s*z,   c1*z*x + s*y,
+            c1*x*y + s*z,   c + c1*sq(y),   c1*z*y - s*x,
+            c1*x*z - s*y,   c1*y*z + s*x,   c + c1*sq(z)
+        );
+    }
+
+    static matrix3x3t rotation_x(_type xradians)
+    {
+        const _type c = std::cos(xradians);
+        const _type s = std::sin(xradians);
+
+        return matrix3x3t::rows(
+            1,  0,  0,
+            0,  c,  -s,
+            0,  s,  c
+        );
+    }
+
+    static matrix3x3t rotation_y(_type yradians)
+    {
+        const _type c = std::cos(yradians);
+        const _type s = std::sin(yradians);
+
+        return matrix3x3t::rows(
+            c,  0,  s,
+            0,  1,  0,
+            -s, 0,  c
+        );
+    }
+
+    static matrix3x3t rotation_z(_type zradians)
+    {
+        const _type c = std::cos(zradians);
+        const _type s = std::sin(zradians);
+
+        return matrix3x3t::rows(
+            c,  -s,  0,
+            s,  c,   0,
+            0,  0,   1
+        );
+    }
+
+    static matrix3x3t rotation_yaw_pitch_roll(_type yaw, _type pitch, _type roll)
+    {
+        const _type cy = std::cos(yaw);
+        const _type sy = std::sin(yaw);
+        const _type cx = std::cos(pitch);
+        const _type sx = std::sin(pitch);
+        const _type cz = std::cos(roll);
+        const _type sz = std::sin(roll);
+
+        return matrix3x3t::rows(
+            cz*cy + sz*sx*sy,  -sz*cy + cz*sx*sy, cx*sy,
+            sz*cx,             cz*cx,             -sx,
+            -cz*sy + sz*sx*cy, sz*sy + cz*sx*cy,  cx*cy
+        );
+    }
 };
 
 template <typename _type>
 class matrix4x4t : public _internal::matrixnxnt<4, _type, matrix4x4t<_type>>
 {
+    typedef _internal::matrixnxnt<4, _type, matrix4x4t<_type>> parent;
 public:
     static matrix4x4t columns(
         _type cr00, _type cr01, _type cr02, _type cr03, //column 1
@@ -351,6 +436,16 @@ public:
         ret(0, 2) = rc02; ret(1, 2) = rc12; ret(2, 2) = rc22; ret(3, 2) = rc32;
         ret(0, 3) = rc03; ret(1, 3) = rc13; ret(2, 3) = rc23; ret(3, 3) = rc33;
         return ret;
+    }
+
+    static matrix4x4t from3x3(const matrix3x3t<_type>& m)
+    {
+        return matrix4x4t::columns(
+            m(0, 0), m(1, 0), m(2, 0), 0,
+            m(0, 1), m(1, 1), m(2, 1), 0,
+            m(0, 2), m(1, 2), m(2, 2), 0,
+            0,       0,       0,       1
+        );
     }
 
     ////////////////////////////////////////////////////////
@@ -486,6 +581,70 @@ public:
             0,      0,      0,      1
         );
     }
+
+    static matrix4x4t translation(const vector3t<_type>& pos)
+    {
+        matrix4x4t ret = parent::identity();
+
+        ret.modify_translation() = pos;
+
+        return ret;
+    }
+
+    static matrix4x4t translation(_type x, _type y, _type z)
+    {
+        return translation(v(x, y, z));
+    }
+
+    static matrix4x4t scaling(_type sx, _type sy, _type sz)
+    {
+        return scaling(v(sx, sy, sz, 1));
+    }
+
+    static matrix4x4t scaling(const vector3t<_type>& scale)
+    {
+        return scaling(scale.x(), scale.y(), scale.z());
+    }
+
+    static matrix4x4t scaling_uniform(_type s)
+    {
+        return scaling(s, s, s);
+    }
+
+    static matrix4x4t rotation_axis(const vector3t<_type>& axis, _type radians)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_axis(axis, radians));
+    }
+
+    static matrix4x4t rotation_x(_type xradians)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_x(xradians));
+    }
+
+    static matrix4x4t rotation_y(_type yradians)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_y(yradians));
+    }
+
+    static matrix4x4t rotation_z(_type zradians)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_z(zradians));
+    }
+
+    static matrix4x4t rotation_yaw_pitch_roll(_type yaw, _type pitch, _type roll)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_yaw_pitch_roll(yaw, pitch, roll));
+    }
+
+    ////////////////////////////////////////////////////////
+    // functions
+
+    vector3t<_type>& modify_translation()
+    {
+        return this->template column_vector<3>(3);
+    }
+
+
 protected:
 
     matrix4x4t& proj_lh_to_rh()
