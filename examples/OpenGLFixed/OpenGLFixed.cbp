@@ -31,8 +31,9 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
-			<Add directory="C:\Programs\MinGW\include" />
+			<Add directory="..\..\" />
 		</Compiler>
 		<Linker>
 			<Add library="glut32" />
@@ -40,7 +41,6 @@
 			<Add library="glu32" />
 			<Add library="winmm" />
 			<Add library="gdi32" />
-			<Add directory="C:\Programs\MinGW\lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

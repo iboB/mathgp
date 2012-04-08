@@ -209,9 +209,6 @@ public:
         return as_this_type();
     }
 
-protected:
-    _type values[value_count];
-
     _this_type& as_this_type()
     {
         return *reinterpret_cast<_this_type*>(this);
@@ -222,6 +219,8 @@ protected:
         return *reinterpret_cast<const _this_type*>(this);
     }
 
+protected:
+    _type values[value_count];
     ntuple() {};
 };
 

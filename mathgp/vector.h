@@ -38,16 +38,16 @@ public:
         return std::sqrt(length_sq());
     }
 
-    vectornt& normalize()
+    _this_type& normalize()
     {
-        return (*this)/=length();
+        return this->as_this_type() /= length();
     }
 
-    vectornt& homogenous_normalize()
+    _this_type& homogenous_normalize()
     {
         static_assert(dimension > 1, "you need at least two homogenous coordinates");
 
-        return (*this) /= this->back();
+        return this->as_this_type() /= this->back();
     }
 };
 
