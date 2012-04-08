@@ -33,6 +33,14 @@ template <size_t _n, typename _type, typename _this_type>
     return o;
 }
 
+template <typename _type>
+::std::ostream& operator<<(::std::ostream& o, const quaterniont<_type>& q)
+{
+    o << '(' << q.x() << ' ' << q.y() << ' ' << q.z() << ' ' << q.w() << ')';
+
+    return o;
+}
+
 template <size_t _n, typename _type, typename _this_type>
 inline std::ostream& operator<<(std::ostream& out, const _internal::matrixnxnt<_n, _type, _this_type>& mat)
 {

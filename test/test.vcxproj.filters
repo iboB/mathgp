@@ -83,6 +83,15 @@
     <ClInclude Include="..\mathgp\glext.h">
       <Filter>mathgp</Filter>
     </ClInclude>
+    <ClInclude Include="..\mathgp\internal_declare.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\internal_define.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mathgp\fwd.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

@@ -63,13 +63,32 @@ void matrix_arithmetic()
             1197, 909, 709, 213));
 }
 
+void quaternion_arithmetic()
+{
+    quaternion q1 = quaternion::xyzw(1, 2, 3, 4);
+    quaternion q2 = quaternion::xyzw(5, 6, 7, 8);
+
+    quaternion p = q1 * q2;
+
+    BOOST_CHECK_EQUAL(p, quaternion::xyzw(24, 48, 48, -6));
+
+    p = q2 * q1;
+
+    BOOST_CHECK_EQUAL(p, quaternion::xyzw(32, 32, 56, -6));
+
+    q1*=q2;
+
+    BOOST_CHECK_EQUAL(q1, quaternion::xyzw(24, 48, 48, -6));
+}
+
 test_suite* arithmetic()
 {
     test_suite* suite = BOOST_TEST_SUITE("arithmetic");
 
     suite->add(BOOST_TEST_CASE(ntuple_arithmetic));
     suite->add(BOOST_TEST_CASE(vector_arithmetic));
-    suite->add(BOOST_TEST_CASE(matrix_arithmetic));    
+    suite->add(BOOST_TEST_CASE(matrix_arithmetic));
+    suite->add(BOOST_TEST_CASE(quaternion_arithmetic));
 
     return suite;
 }

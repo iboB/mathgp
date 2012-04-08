@@ -10,6 +10,7 @@
 #include "functions.h"
 #include "ntuple.h"
 #include "vector.h"
+#include <utility>
 
 namespace mathgp
 {
@@ -149,6 +150,14 @@ public:
 
     ////////////////////////////////////////////////////////
     // functions
+    _this_type& transpose()
+    {
+        for(size_t r=0; r<order; ++r)
+            for(size_t c=0; c<order; ++c)
+                std::swap(m(r, c), m(c, r));
+
+        return this->as_this_type();
+    }
 
     _type adjunct(size_t row, size_t col) const
     {
@@ -401,6 +410,11 @@ public:
             -cz*sy + sz*sx*cy, sz*sy + cz*sx*cy,  cx*cy
         );
     }
+
+    static matrix3x3t rotation_vectors(const vector3t<_type>& src, const vector3t<_type>& target)
+    {
+        return _internal::rotation_from_vectors<matrix3x3t>(src, target);
+    }
 };
 
 template <typename _type>
@@ -462,7 +476,7 @@ public:
 
     static matrix4x4t ortho_rh(_type width, _type height, _type near, _type far)
     {
-        return ortho_lh(width, height, near, far).proj_lh_to_rh();
+        return ortho_lh(width, height, near, far).change_handedness();
     }
 
     // off center
@@ -481,7 +495,7 @@ public:
 
     static matrix4x4t ortho_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
     {
-        return ortho_lh(left, right, bottom, top, near, far).proj_lh_to_rh();
+        return ortho_lh(left, right, bottom, top, near, far).change_handedness();
     }
 
     static matrix4x4t perspective_lh(_type width, _type height, _type near, _type far)
@@ -496,7 +510,7 @@ public:
 
     static matrix4x4t perspective_rh(_type width, _type height, _type near, _type far)
     {
-        return perspective_lh(width, height, near, far).proj_lh_to_rh();
+        return perspective_lh(width, height, near, far).change_handedness();
     }
 
     // off center
@@ -515,7 +529,7 @@ public:
 
     static matrix4x4t perspective_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
     {
-        return perspective_lh(left, right, bottom, top, near, far).proj_lh_to_rh();
+        return perspective_lh(left, right, bottom, top, near, far).change_handedness();
     }
 
     static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near, _type far)
@@ -533,7 +547,7 @@ public:
 
     static matrix4x4t perspective_fov_rh(_type fovy, _type aspect, _type near, _type far)
     {
-        return perspective_fov_lh(fovy, aspect, near, far).proj_lh_to_rh();
+        return perspective_fov_lh(fovy, aspect, near, far).change_handedness();
     }
 
     ////////////////////////////////////////////////////////
@@ -636,6 +650,11 @@ public:
         return from3x3(matrix3x3t<_type>::rotation_yaw_pitch_roll(yaw, pitch, roll));
     }
 
+    static matrix4x4t rotation_vectors(const vector3t<_type>& src, const vector3t<_type>& target)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_vectors(src, target));
+    }
+
     ////////////////////////////////////////////////////////
     // functions
 
@@ -644,10 +663,9 @@ public:
         return this->template column_vector<3>(3);
     }
 
-
 protected:
 
-    matrix4x4t& proj_lh_to_rh()
+    matrix4x4t& change_handedness()
     {
         flip_sign(this->column_vector(2));
         return *this;

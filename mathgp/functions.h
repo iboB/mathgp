@@ -40,4 +40,11 @@ _type deg_to_rad(const _type& degrees)
     return degrees * (constants<_type>::PI() / _type(180));
 }
 
+template <typename _type>
+bool close(const _type& a, const _type& b,
+           const _type& epsilon = constants<_type>::EPSILON())
+{
+    return !(std::abs(a - b) > epsilon);
+}
+
 } // namespace mathgp

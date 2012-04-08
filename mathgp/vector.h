@@ -9,6 +9,7 @@
 
 #include "constants.h"
 #include "ntuple.h"
+#include "fwd.h"
 
 namespace mathgp
 {
@@ -57,8 +58,18 @@ _type dot(const vectornt<_n, _type, _this_type>& a, const vectornt<_n, _type, _t
 template <size_t _dim, typename _type, typename _this_type>
 bool orthogonal(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
 {
-    return std::abs(dot(a, b)) < constants<_type>::EPSILON();
+    return close(dot(a, b), 0);
 }
+
+template <size_t _dim, typename _type, typename _this_type>
+bool colinear(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+{
+    // there are many ways to do this, but to save sqrt calls let's try this
+    vectornt<_dim, _type, _this_type> adb = div(a, b);
+
+    return close(adb.x(), adb.y()) && close(adb.x(), adb.z());
+}
+
 
 template <size_t _n, typename _type, typename _this_type>
 _this_type normalized(const vectornt<_n, _type, _this_type>& a)
@@ -122,21 +133,6 @@ private:
 #endif // #if !defined(MATHGP_DISABLE_SWIZZLE)
 
 } // namespace _internal
-
-template <typename _type>
-class vector1t;
-
-template <typename _type>
-class vector2t;
-
-template <typename _type>
-class vector3t;
-
-template <typename _type>
-class vector4t;
-
-template <typename _type>
-class vectornt;
 
 template <typename _type>
 class vector1t : public _internal::vectornt<1, _type, vector1t<_type>>
