@@ -7,6 +7,8 @@
 // functions.h - generic functions used throughout the library
 #pragma once
 
+#include <cmath>
+
 namespace mathgp
 {
 
@@ -45,6 +47,12 @@ bool close(const _type& a, const _type& b,
            const _type& epsilon = constants<_type>::EPSILON())
 {
     return !(std::abs(a - b) > epsilon);
+}
+
+template <typename _type>
+_type round(_type f)
+{
+	return std::floor(f+_type(0.5));
 }
 
 } // namespace mathgp

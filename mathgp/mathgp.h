@@ -14,5 +14,6 @@
 #include "complex.h"
 #include "quaternion.h"
 #include "matrix.h"
+#include "transform.h"
 #include "internal_define.h"
 #include "types.h"

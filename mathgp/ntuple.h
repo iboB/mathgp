@@ -144,6 +144,26 @@ public:
         return as_array() + value_count;
     }
 
+    _type& front()
+    {
+        return at(0);
+    }
+
+    const _type& front() const
+    {
+        return at(0);
+    }
+
+    _type& back()
+    {
+        return at(value_count - 1);
+    }
+
+    const _type& back() const
+    {
+        return at(value_count - 1);
+    }
+
     ////////////////////////////////////////////////////////
     // arithmetic
 

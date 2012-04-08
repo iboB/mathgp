@@ -42,6 +42,13 @@ public:
     {
         return (*this)/=length();
     }
+
+    vectornt& homogenous_normalize()
+    {
+        static_assert(dimension > 1, "you need at least two homogenous coordinates");
+
+        return (*this) /= this->back();
+    }
 };
 
 template <size_t _n, typename _type, typename _this_type>
@@ -301,6 +308,11 @@ public:
         ret.w() = w;
 
         return ret;
+    }
+
+    static vector4t coord(const vector3t<_type>& v3, _type w)
+    {
+        return coord(v3.x(), v3.y(), v3.z(), w);
     }
 
 #include "vector1_swizzle.inl"
