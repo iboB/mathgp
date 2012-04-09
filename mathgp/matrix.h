@@ -464,9 +464,9 @@ public:
 
     ////////////////////////////////////////////////////////
     // projection
-    static matrix4x4t ortho_lh(_type width, _type height, _type near, _type far)
+    static matrix4x4t ortho_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        _type depth = far - near;
+        _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
             2/width, 0,        0,          0,
             0,       2/height, 0,          0,
@@ -474,18 +474,18 @@ public:
             0,       0,        0,          1);
     }
 
-    static matrix4x4t ortho_rh(_type width, _type height, _type near, _type far)
+    static matrix4x4t ortho_rh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        return ortho_lh(width, height, near, far).change_handedness();
+        return ortho_lh(width, height, near_dist, far_dist).change_handedness();
     }
 
     // off center
-    static matrix4x4t ortho_lh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    static matrix4x4t ortho_lh(_type left, _type right, _type bottom, _type top, _type near_dist, _type far_dist)
     {
         _type width = right - left;
         _type height = top - bottom;
 
-        matrix4x4t ret = ortho_lh(width, height, near, far);
+        matrix4x4t ret = ortho_lh(width, height, near_dist, far_dist);
 
         ret(0, 3) = -(left + right)/width;
         ret(1, 3) = -(top + bottom)/height;
@@ -493,33 +493,33 @@ public:
         return ret;
     }
 
-    static matrix4x4t ortho_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    static matrix4x4t ortho_rh(_type left, _type right, _type bottom, _type top, _type near_dist, _type far_dist)
     {
-        return ortho_lh(left, right, bottom, top, near, far).change_handedness();
+        return ortho_lh(left, right, bottom, top, near_dist, far_dist).change_handedness();
     }
 
-    static matrix4x4t perspective_lh(_type width, _type height, _type near, _type far)
+    static matrix4x4t perspective_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        _type depth = far - near;
+        _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
-            (2*near)/width, 0,             0,          0,
-            0,            (2*near)/height, 0,          0,
-            0,            0,               far/depth, -(far*near)/depth,
+            (2*near_dist)/width, 0,             0,          0,
+            0,            (2*near_dist)/height, 0,          0,
+            0,            0,               far_dist/depth, -(far_dist*near_dist)/depth,
             0,            0,               1,          0);
     }
 
-    static matrix4x4t perspective_rh(_type width, _type height, _type near, _type far)
+    static matrix4x4t perspective_rh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        return perspective_lh(width, height, near, far).change_handedness();
+        return perspective_lh(width, height, near_dist, far_dist).change_handedness();
     }
 
     // off center
-    static matrix4x4t perspective_lh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    static matrix4x4t perspective_lh(_type left, _type right, _type bottom, _type top, _type near_dist, _type far_dist)
     {
         _type width = right - left;
         _type height = top - bottom;
 
-        matrix4x4t ret = perspective_lh(width, height, near, far);
+        matrix4x4t ret = perspective_lh(width, height, near_dist, far_dist);
 
         ret(0, 3) = -(left + right)/width;
         ret(1, 3) = -(top + bottom)/height;
@@ -527,27 +527,27 @@ public:
         return ret;
     }
 
-    static matrix4x4t perspective_rh(_type left, _type right, _type bottom, _type top, _type near, _type far)
+    static matrix4x4t perspective_rh(_type left, _type right, _type bottom, _type top, _type near_dist, _type far_dist)
     {
-        return perspective_lh(left, right, bottom, top, near, far).change_handedness();
+        return perspective_lh(left, right, bottom, top, near_dist, far_dist).change_handedness();
     }
 
-    static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near, _type far)
+    static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near_dist, _type far_dist)
     {
         _type yscale = _type(1)/std::tan(fovy/2); //cot(fovy/2)
 		_type xscale = yscale/aspect;
-        _type depth = far - near;
+        _type depth = far_dist - near_dist;
 
         return matrix4x4t::rows(
             xscale, 0,      0,          0,
             0,      yscale, 0,          0,
-            0,      0,      far/depth, -(far*near)/depth,
+            0,      0,      far_dist/depth, -(far_dist*near_dist)/depth,
             0,      0,      1,          0);
     }
 
-    static matrix4x4t perspective_fov_rh(_type fovy, _type aspect, _type near, _type far)
+    static matrix4x4t perspective_fov_rh(_type fovy, _type aspect, _type near_dist, _type far_dist)
     {
-        return perspective_fov_lh(fovy, aspect, near, far).change_handedness();
+        return perspective_fov_lh(fovy, aspect, near_dist, far_dist).change_handedness();
     }
 
     ////////////////////////////////////////////////////////
@@ -564,7 +564,7 @@ public:
             -dot(front, eye)
         );
 
-        return basis_transform(shift, right, up, front);
+        return basis_transform(shift, right, up2, front);
     }
 
     //static matrix4x4t look_towards_rh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
