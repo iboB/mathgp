@@ -612,7 +612,7 @@ public:
 
     static matrix4x4t scaling(_type sx, _type sy, _type sz)
     {
-        return scaling(v(sx, sy, sz, 1));
+        return from3x3(matrix3x3t<_type>::scaling(scale));
     }
 
     static matrix4x4t scaling(const vector3t<_type>& scale)
