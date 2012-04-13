@@ -246,9 +246,10 @@ _this_type operator-(const ntuple<_n, _type, _this_type>& a,
     return ret;
 }
 
-template <size_t _n, typename _type, typename _this_type>
-_this_type operator*(const ntuple<_n, _type, _this_type>& a,
-                     const _type& scalar)
+template <size_t _n, typename _type, typename _this_type, typename _scalar>
+typename std::enable_if<std::is_arithmetic<_scalar>::value,
+_this_type>::type operator*(const ntuple<_n, _type, _this_type>& a,
+                     const _scalar& scalar)
 {
     _this_type ret;
 
@@ -257,8 +258,9 @@ _this_type operator*(const ntuple<_n, _type, _this_type>& a,
     return ret;
 }
 
-template <size_t _n, typename _type, typename _this_type>
-_this_type operator*(const _type& scalar,
+template <size_t _n, typename _type, typename _this_type, typename _scalar>
+typename std::enable_if<std::is_arithmetic<_scalar>::value,
+_this_type>::type operator*(const _scalar& scalar,
                      const ntuple<_n, _type, _this_type>& b)
 {
     _this_type ret;
@@ -268,9 +270,10 @@ _this_type operator*(const _type& scalar,
     return ret;
 }
 
-template <size_t _n, typename _type, typename _this_type>
-_this_type operator/(const ntuple<_n, _type, _this_type>& a,
-                     const _type& scalar)
+template <size_t _n, typename _type, typename _this_type, typename _scalar>
+typename std::enable_if<std::is_arithmetic<_scalar>::value,
+_this_type>::type operator/(const ntuple<_n, _type, _this_type>& a,
+                     const _scalar& scalar)
 {
     _this_type ret;
 
@@ -325,7 +328,7 @@ bool close(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _this
            const _type& epsilon = constants<_type>::EPSILON())
 {
     for(size_t i = 0; i < _n; ++i)
-        if(!close(a, b, epsilon))
+        if(!::mathgp::close(a.at(i), b.at(i), epsilon))
             return false;
 
 	return true;
@@ -374,6 +377,20 @@ _this_type sign(const ntuple<_n, _type, _this_type>& a)
 }
 
 } // namespace _internal
+
+template <typename _t>
+class is_ntuple
+{
+    struct yes { char c; };
+    struct no { char c[2]; };
+
+    template <size_t _n, typename _type, typename _this_type>
+    static yes check(_internal::ntuple<_n, _type, _this_type>*);
+    static no check(...);
+
+public:
+    static const bool value = sizeof(check(static_cast<_t*>(nullptr))) == sizeof(yes);
+};
 
 // to be used if ntuples are keys in maps or sets
 struct strict_ordering

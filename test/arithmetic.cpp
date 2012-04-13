@@ -1,16 +1,10 @@
 //                MathGP Library
 //     Copyright (c) 2012 Borislav Stanimirov
 //   
-//  See the LICENSE.txt file, included in this 
+//  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
 
-#include <boost/test/unit_test.hpp>
-
-#define MATHGP_DISABLE_SWIZZLE
-#define MATHGP_PREFERRED_TYPE float
-
-#include <mathgp/mathgp.h>
-#include <mathgp/stdext.h>
+#include "precompiled.h"
 
 using namespace boost::unit_test;
 using namespace std;
@@ -23,7 +17,7 @@ void ntuple_arithmetic()
 void vector_arithmetic()
 {
     vector3 v1 = vector3::uniform(1);
-    vector3 v6 = 6.f * v1;
+    vector3 v6 = 6 * v1;
 
     BOOST_CHECK_EQUAL(v6, vector3::coord(6, 6, 6));    
 }

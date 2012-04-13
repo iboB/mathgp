@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cmath>
+#include <utility>
 
 namespace mathgp
 {
@@ -43,8 +44,9 @@ _type deg_to_rad(const _type& degrees)
 }
 
 template <typename _type>
-bool close(const _type& a, const _type& b,
-           const _type& epsilon = constants<_type>::EPSILON())
+typename std::enable_if<std::is_arithmetic<_type>::value,
+bool>::type close(const _type& a, const _type& b,
+           const _type& epsilon)
 {
     return !(std::abs(a - b) > epsilon);
 }

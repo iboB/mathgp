@@ -10,6 +10,7 @@ test/ipch/
 #code blocks stuff
 *.depend
 *.layout
+*.gch
 
 test/bin/
 test/obj/

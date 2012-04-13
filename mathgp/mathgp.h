@@ -9,6 +9,7 @@
 
 //#define MATHGP_DISABLE_SWIZZLE
 
+#include "platform.h"
 #include "defines.h"
 #include "vector.h"
 #include "complex.h"

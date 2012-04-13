@@ -150,6 +150,11 @@ public:
 
     ////////////////////////////////////////////////////////
     // functions
+    bool is_identity(_type e = constants<_type>::EPSILON()) const
+    {
+        return close(*this, identity(), e);
+    }
+
     _this_type& transpose()
     {
         for(size_t r=0; r<order; ++r)
@@ -415,6 +420,26 @@ public:
     {
         return _internal::rotation_from_vectors<matrix3x3t>(src, target);
     }
+
+    static matrix3x3t rotation_quaternion(const quaterniont<_type>& q)
+    {
+        const _type x2 = sq(q.x());
+        const _type y2 = sq(q.y());
+        const _type z2 = sq(q.z());
+        const _type w2 = sq(q.w());
+        const _type xy = 2 * q.x() * q.y();
+        const _type xz = 2 * q.x() * q.z();
+        const _type xw = 2 * q.x() * q.w();
+        const _type yz = 2 * q.y() * q.z();
+        const _type yw = 2 * q.y() * q.w();
+        const _type zw = 2 * q.z() * q.w();
+
+        return matrix3x3t::rows(
+            w2 + x2 - y2 - z2, xy - zw,           xz + yw,
+            xy + zw,           w2 - x2 + y2 - z2, yz - xw,
+            xz - yw,           yz + xw,           w2 - x2 - y2 + z2
+        );
+    }
 };
 
 template <typename _type>
@@ -612,12 +637,12 @@ public:
 
     static matrix4x4t scaling(_type sx, _type sy, _type sz)
     {
-        return from3x3(matrix3x3t<_type>::scaling(scale));
+        return scaling(v(sx, sy, sz));
     }
 
     static matrix4x4t scaling(const vector3t<_type>& scale)
     {
-        return scaling(scale.x(), scale.y(), scale.z());
+        return from3x3(matrix3x3t<_type>::scaling(scale));
     }
 
     static matrix4x4t scaling_uniform(_type s)
@@ -653,6 +678,11 @@ public:
     static matrix4x4t rotation_vectors(const vector3t<_type>& src, const vector3t<_type>& target)
     {
         return from3x3(matrix3x3t<_type>::rotation_vectors(src, target));
+    }
+
+    static matrix4x4t rotation_quaternion(const quaterniont<_type>& q)
+    {
+        return from3x3(matrix3x3t<_type>::rotation_quaternion(q));
     }
 
     ////////////////////////////////////////////////////////
