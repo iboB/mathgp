@@ -199,24 +199,27 @@ public:
     }
 
 private:
+    template <typename _t>
+    friend _t dot(const quaterniont<_t>& a, const quaterniont<_t>& b);
+
     vector3t<_type>& as_v3()
     {
-        return vector3t<_type>::attach_to_ptr(this->as_ptr());
+        return vector3t<_type>::attach_to_ptr(this->as_array());
     }
 
     const vector3t<_type>& as_v3() const
     {
-        return vector3t<_type>::attach_to_ptr(this->as_ptr());
+        return vector3t<_type>::attach_to_ptr(this->as_array());
     }
 
     vector4t<_type>& as_v4()
     {
-        return vector4t<_type>::attach_to_ptr(this->as_ptr());
+        return vector4t<_type>::attach_to_ptr(this->as_array());
     }
 
     const vector4t<_type>& as_v4() const
     {
-        return vector4t<_type>::attach_to_ptr(this->as_ptr());
+        return vector4t<_type>::attach_to_ptr(this->as_array());
     }
 };
 
@@ -242,6 +245,17 @@ quaterniont<_type> operator*(const quaterniont<_type>& a, const quaterniont<_typ
     return _internal::quaternion_multiply(a, b);
 }
 
+template <typename _type>
+quaterniont<_type> normalized(const quaterniont<_type>& q)
+{
+    return q/q.magnitude();
+}
+
+template <typename _type>
+_type dot(const quaterniont<_type>& a, const quaterniont<_type>& b)
+{
+    return dot(a.as_v4(), b.as_v4());
+}
 
 template <typename _type>
 quaterniont<_type> log(const quaterniont<_type>& q)
@@ -275,5 +289,25 @@ quaterniont<_type> exp(const quaterniont<_type>& q)
     );
 }
 
+template <typename _type>
+quaterniont<_type> lerp(const quaterniont<_type>& from, const quaterniont<_type>& to, _type ratio)
+{
+    return normalized(lerp<_internal::ntuple<4, _type, quaterniont<_type>>>(from, to, ratio).as_this_type());
+}
+
+template <typename _type>
+quaterniont<_type> slerp(const quaterniont<_type>& from, const quaterniont<_type>& to, _type ratio)
+{
+    _type cos_angle = dot(from, to);
+
+    // if the angle is small (ie cos_angle is close to -1 or 1),
+    // could use lerp, instead of slerp:
+    // if(cos_angle < -0.99 || cos_angle > 0.99) return lerp(from, to, ratio)
+    // need to test how this works
+
+    _type angle = std::acos(cos_angle);
+
+    return (from*std::sin((1-ratio)*angle) + to*std::sin(angle*ratio)) / std::sin(angle);
+}
 
 }
