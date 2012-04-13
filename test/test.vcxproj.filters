@@ -100,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="precompiled.h" />
     <ClInclude Include="mathgp_test.h" />
+    <ClInclude Include="..\mathgp\debug.h">
+      <Filter>mathgp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

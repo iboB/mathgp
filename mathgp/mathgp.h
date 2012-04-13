@@ -11,6 +11,7 @@
 
 #include "platform.h"
 #include "defines.h"
+#include "debug.h"
 #include "vector.h"
 #include "complex.h"
 #include "quaternion.h"

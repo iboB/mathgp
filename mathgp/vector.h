@@ -40,12 +40,14 @@ public:
 
     _this_type& normalize()
     {
+        MATHGP_ASSERT3(!::mathgp::close(length(), _type(0)), "normalizing a zero-length vector");
         return this->as_this_type() /= length();
     }
 
     _this_type& homogenous_normalize()
     {
         static_assert(dimension > 1, "you need at least two homogenous coordinates");
+        MATHGP_ASSERT3(!::mathgp::close(this->back(), _type(0)), "homogenous normalize with a zero homogenous coordinate");
 
         return this->as_this_type() /= this->back();
     }
@@ -82,6 +84,8 @@ template <size_t _n, typename _type, typename _this_type>
 _this_type normalized(const vectornt<_n, _type, _this_type>& a)
 {
     _type length = a.length();
+
+    MATHGP_ASSERT3(!::mathgp::close(length, _type(0)), "normalizing a zero-length vector");
 
     _this_type ret;
 
@@ -193,6 +197,7 @@ public:
 
     vector2t get_orthogonal() const
     {
+        MATHGP_ASSERT3(!close(*this, vector2t::zero()), "finding an orthogonal of a zero vector");
         return vector2t::coord(-y(), x());
     }
 
@@ -257,6 +262,8 @@ public:
             }
         }
 
+        MATHGP_ASSERT3(non_zeros, "finding an orthogonal of a zero vector");
+
         if (non_zeros >= 2)
         {
             return vector3t::coord(y() * z() / 2, x() * z() / 2, -x() * y());
@@ -289,6 +296,9 @@ vector3t<_type> v(const _type& x, const _type& y, const _type& z)
 template <typename _type>
 vector3t<_type> cross(const vector3t<_type>& a, const vector3t<_type>& b)
 {
+    MATHGP_ASSERT3(!close(a, vector3t<_type>::zero()), "cross product with a zero vector");
+    MATHGP_ASSERT3(!close(b, vector3t<_type>::zero()), "cross product with a zero vector");
+
     return vector3t<_type>::coord(
         a.y()*b.z() - a.z()*b.y(),
         a.z()*b.x() - a.x()*b.z(),

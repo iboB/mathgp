@@ -62,6 +62,12 @@ void quaternion_geometry()
         0.30942556881258626f, 0.527364923066248f, 0.33413672218578583f, 0.6741185090656765f));
 }
 
+void scaling()
+{
+    matrix m = matrix::scaling_uniform(1);
+    BOOST_CHECK_EQUAL(m, matrix::identity());
+}
+
 void rotation()
 {
     matrix rot;
@@ -85,6 +91,7 @@ test_suite* geometry()
 
     suite->add(BOOST_TEST_CASE(matrix_algebra));
     suite->add(BOOST_TEST_CASE(quaternion_geometry));
+    suite->add(BOOST_TEST_CASE(scaling));
     suite->add(BOOST_TEST_CASE(rotation));
 
     return suite;

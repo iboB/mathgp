@@ -22,6 +22,7 @@ namespace _internal
 template <size_t _n, typename _type, typename _this_type>
 class ntuple
 {
+    static_assert(_n, "cannot create an ntuple of size 0");
 public:
     typedef _type value_type;
     typedef size_t size_type;
@@ -67,21 +68,25 @@ public:
 
     static _this_type& attach_to_ptr(_type* ptr)
     {
+        MATHGP_ASSERT2(ptr, "attaching ntuple to nullptr");
         return *reinterpret_cast<_this_type*>(ptr);
     }
 
     static const _this_type& attach_to_ptr(const _type* ptr)
     {
+        MATHGP_ASSERT2(ptr, "attaching ntuple to nullptr");
         return *reinterpret_cast<const _this_type*>(ptr);
     }
 
     static _this_type* attach_to_array(_type* ar)
     {
+        MATHGP_ASSERT2(ar, "attaching ntuple to nullptr");
         return reinterpret_cast<_this_type*>(ar);
     }
 
     static const _this_type* attach_to_array(const _type* ar)
     {
+        MATHGP_ASSERT2(ar, "attaching ntuple to nullptr");
         return reinterpret_cast<const _this_type*>(ar);
     }
 
@@ -100,11 +105,13 @@ public:
 
     _type& at(size_type i)
     {
+        MATHGP_ASSERT3(i < value_count, "ntuple index overflow");
         return values[i];
     }
 
     const _type& at(size_type i) const
     {
+        MATHGP_ASSERT3(i < value_count, "ntuple index overflow");
         return values[i];
     }
 
@@ -204,6 +211,8 @@ public:
 
     _this_type& operator/=(const _type& scalar)
     {
+        MATHGP_ASSERT3(!::mathgp::close(scalar, _type(0)), "ntuple division by zero");
+
         MATHGP_EACH_VAL /= scalar;
 
         return as_this_type();
@@ -275,6 +284,8 @@ typename std::enable_if<std::is_arithmetic<_scalar>::value,
 _this_type>::type operator/(const ntuple<_n, _type, _this_type>& a,
                      const _scalar& scalar)
 {
+    MATHGP_ASSERT3(!::mathgp::close(scalar, _type(0)), "ntuple division by zero");
+
     _this_type ret;
 
     MATHGP_EACH_OF(ret) = a.at(i) / scalar;

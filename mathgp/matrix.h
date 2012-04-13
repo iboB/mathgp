@@ -61,7 +61,10 @@ public:
         _this_type ret = _this_type::zero();
 
         for(size_t i=0; i<order; ++i)
+        {
+            MATHGP_ASSERT1(!::mathgp::close(scale.at(i), _type(0)), "scale shouldn't be zero");
             ret.m(i, i) = scale.at(i);
+        }
 
         return ret;
     }
@@ -70,21 +73,25 @@ public:
     // access
     _type* column(size_t i)
     {
+        MATHGP_ASSERT3(i<order, "column beyond order");
         return this->as_array() + i*order;
     }
 
     const _type* column(size_t i) const
     {
+        MATHGP_ASSERT3(i<order, "column beyond order");
         return this->as_array() + i*order;
     }
 
     _type& m(size_t row, size_t column)
     {
+        MATHGP_ASSERT3(row<order, "row beyond order");
         return this->column(column)[row];
     }
 
     const _type& m(size_t row, size_t column) const
     {
+        MATHGP_ASSERT3(row<order, "row beyond order");
         return this->column(column)[row];
     }
 
@@ -101,12 +108,14 @@ public:
     template <size_t _dim>
     typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset = 0)
     {
+        MATHGP_ASSERT2(_dim + offset <= order, "column vector reaching end of column");
         return *reinterpret_cast<typename vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
     template <size_t _dim>
     const typename vector_space<_dim, _type>::vector& column_vector(size_t col, size_t offset = 0) const
     {
+        MATHGP_ASSERT2(_dim + offset <= order, "column vector reaching end of column");
         return *reinterpret_cast<const typename vector_space<_dim, _type>::vector*>(column(col) + offset);
     }
 
@@ -122,6 +131,7 @@ public:
 
     order_vector row_vector(size_t row) const
     {
+        MATHGP_ASSERT3(row < order, "row vector beyond matrix order");
         order_vector vec;
 
         for(size_t col=0; col<order; ++col)
@@ -135,6 +145,9 @@ public:
     template <size_t _dim>
     typename vector_space<_dim, _type>::vector& row_vector(size_t row, size_t offset) const
     {
+        MATHGP_ASSERT3(row < order, "row vector beyond matrix order");
+        MATHGP_ASSERT2(offset + _dim <= order, "row vector reaching end of row");
+
         typename vector_space<_dim, _type>::vector vec;
 
         for(size_t col=offset; col<_dim; ++col)
@@ -309,6 +322,8 @@ _this_type& matrixnxn_inverse(matrixnxnt<_order, _type, _this_type>& out_result,
 
     out_determinant = m.determinant();
 
+    MATHGP_ASSERT1(!::mathgp::close(out_determinant, _type(0)), "inverting a matrix with a zero determinant");
+
     for(size_t c=0; c<_order; ++c)
         for(size_t r=0; r<_order; ++r)
             result(r, c) = m.adjunct(r, c);
@@ -479,6 +494,9 @@ public:
 
     static matrix3x3t rotation_quaternion(const quaterniont<_type>& q)
     {
+        MATHGP_ASSERT2(::mathgp::close(q.magnitude(), _type(1)), "rotation with a non-normalized quaternion");
+        MATHGP_ASSERT1(!::mathgp::close(q.magnitude(), _type(0)), "rotating with a broken quaternion");
+
         const _type x2 = sq(q.x());
         const _type y2 = sq(q.y());
         const _type z2 = sq(q.z());
@@ -547,6 +565,7 @@ public:
     // projection
     static matrix4x4t ortho_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
         _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
             2/width, 0,        0,          0,
@@ -581,6 +600,8 @@ public:
 
     static matrix4x4t perspective_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
+
         _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
             (2*near_dist)/width, 0,             0,          0,
@@ -615,6 +636,8 @@ public:
 
     static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near_dist, _type far_dist)
     {
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
+
         _type yscale = _type(1)/std::tan(fovy/2); //cot(fovy/2)
         _type xscale = yscale/aspect;
         _type depth = far_dist - near_dist;
@@ -635,6 +658,9 @@ public:
     // view
     static matrix4x4t look_towards(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
     {
+        MATHGP_ASSERT2(!close(dir, vector3t<_type>::zero()), "direction shouldn't be zero");
+        MATHGP_ASSERT3(!close(up, vector3t<_type>::zero()), "up vector shouldn't be zero");
+
         vector3t<_type> front = normalized(dir);
         vector3t<_type> right = normalized(cross(up, front));
         vector3t<_type> up2 = cross(front, right); //since the original up is not to be trusted
@@ -669,12 +695,16 @@ public:
     // transforms
     static matrix4x4t basis_transform(const vector3t<_type>& o, const vector3t<_type>& e1, const vector3t<_type>& e2, const vector3t<_type>& e3)
     {
-        return matrix4x4t::rows(
+        matrix4x4t transform = matrix4x4t::rows(
             e1.x(), e1.y(), e1.z(), o.x(),
             e2.x(), e2.y(), e2.z(), o.y(),
             e3.x(), e3.y(), e3.z(), o.z(),
             0,      0,      0,      1
         );
+
+        MATHGP_ASSERT3(!::mathgp::close(transform.determinant(), _type(0)), "linear dependency in basis transform");
+
+        return transform;
     }
 
     static matrix4x4t translation(const vector3t<_type>& pos)

@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClInclude Include="..\mathgp\complex.h" />
     <ClInclude Include="..\mathgp\constants.h" />
+    <ClInclude Include="..\mathgp\debug.h" />
     <ClInclude Include="..\mathgp\defines.h" />
     <ClInclude Include="..\mathgp\functions.h" />
     <ClInclude Include="..\mathgp\fwd.h" />

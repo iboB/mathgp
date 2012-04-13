@@ -44,6 +44,9 @@
 		<Unit filename="..\mathgp\constants.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
+		<Unit filename="..\mathgp\debug.h">
+			<Option virtualFolder="mathgp\" />
+		</Unit>
 		<Unit filename="..\mathgp\defines.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
