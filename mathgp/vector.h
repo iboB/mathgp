@@ -237,6 +237,11 @@ public:
 
     ////////////////////////////////////////////////////////
     // functions
+    vector3t& change_handedness()
+    {
+        flip_sign(z());
+        return *this;
+    }
 
     vector3t get_orthogonal() const
     {
