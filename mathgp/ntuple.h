@@ -331,7 +331,7 @@ bool close(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _this
         if(!::mathgp::close(a.at(i), b.at(i), epsilon))
             return false;
 
-	return true;
+    return true;
 }
 
 // multiply term by term
@@ -342,7 +342,7 @@ _this_type mul(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _
 
     MATHGP_EACH_OF(ret) = a.at(i) * b.at(i);
 
-	return true;
+    return true;
 }
 
 // divide term by term
@@ -353,13 +353,13 @@ _this_type div(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _
 
     MATHGP_EACH_OF(ret) = a.at(i) / b.at(i);
 
-	return true;
+    return true;
 }
 
 template <size_t _n, typename _type, typename _this_type>
 bool finite(const ntuple<_n, _type, _this_type>& a)
 {
-	for(size_t i = 0; i < _n; ++i)
+    for(size_t i = 0; i < _n; ++i)
         if(!_finite(a.at(i)))
             return false;
 
@@ -395,19 +395,19 @@ public:
 // to be used if ntuples are keys in maps or sets
 struct strict_ordering
 {
-	template <size_t _n, typename _type, typename _this_type>
-	bool operator()(const _internal::ntuple<_n, _type, _this_type>& a, const _internal::ntuple<_n, _type, _this_type>& b) const
-	{
-		for(size_t i = 0; i < _n; ++i)
-		{
-			if (a.at(i) < b.at(i))
-				return true;
-			else if(a.at(i) > b.at(i))
-				return false;
-		}
+    template <size_t _n, typename _type, typename _this_type>
+    bool operator()(const _internal::ntuple<_n, _type, _this_type>& a, const _internal::ntuple<_n, _type, _this_type>& b) const
+    {
+        for(size_t i = 0; i < _n; ++i)
+        {
+            if (a.at(i) < b.at(i))
+                return true;
+            else if(a.at(i) > b.at(i))
+                return false;
+        }
 
-		return false;
-	}
+        return false;
+    }
 };
 
 

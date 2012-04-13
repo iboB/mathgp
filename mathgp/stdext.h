@@ -45,15 +45,16 @@ template <size_t _n, typename _type, typename _this_type>
 inline std::ostream& operator<<(std::ostream& out, const _internal::matrixnxnt<_n, _type, _this_type>& mat)
 {
     typedef _internal::matrixnxnt<_n, _type, _this_type> matrix;
+    out << '(';
+    for(typename matrix::size_type i=0; i<matrix::order; ++i)
+    {
+        if(i)
+            out << ", ";
 
-	for(typename matrix::size_type i=0; i<matrix::order; ++i)
-	{
-		if(i)
-			out << '\n';
-
-		out << mat.row_vector(i);
-	}
-	return out;
+        out << mat.row_vector(i);
+    }
+    out << ')';
+    return out;
 }
 
 }

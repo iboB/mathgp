@@ -32,6 +32,10 @@ _this_type& matrixnxn_multiply(
     const matrixnxnt<_order, _type, _this_type>& a,
     const matrixnxnt<_order, _type, _this_type>& b);
 
+template <bool copy, size_t _order, typename _type, typename _this_type>
+_this_type& matrixnxn_inverse(matrixnxnt<_order, _type, _this_type>& out_result,
+    const matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant);
+
 template <size_t _n, typename _type, typename _this_type>
 class matrixnxnt : public ntuple<_n*_n, _type, _this_type>
 {
@@ -158,7 +162,7 @@ public:
     _this_type& transpose()
     {
         for(size_t r=0; r<order; ++r)
-            for(size_t c=0; c<order; ++c)
+            for(size_t c=0; c<r; ++c)
                 std::swap(m(r, c), m(c, r));
 
         return this->as_this_type();
@@ -199,6 +203,16 @@ public:
         return det_impl<order>::eval(*this);
     }
 
+    _this_type& inverse(_type& out_determinant)
+    {
+        return matrixnxn_inverse<true>(*this, *this, out_determinant);
+    }
+
+    matrixnxnt& inverse()
+    {
+        _type tmp_determinant;
+        return inverse(tmp_determinant);
+    }
 
 private:
     // renamed template arguments, because they're shadowed otherwise;
@@ -251,6 +265,13 @@ _this_type operator*(const matrixnxnt<_order, _type, _this_type>& a, const matri
     return matrixnxn_multiply<false>(result, a, b);
 }
 
+template <size_t _order, typename _type, typename _this_type>
+_this_type transpose(const matrixnxnt<_order, _type, _this_type>& a)
+{
+    matrixnxnt<_order, _type, _this_type> t = a;
+    return t.transpose();
+}
+
 template <bool copy, size_t _order, typename _type, typename _this_type>
 _this_type& matrixnxn_multiply(
     matrixnxnt<_order, _type, _this_type>& out_result,
@@ -276,8 +297,43 @@ _this_type& matrixnxn_multiply(
     if(copy)
         out_result = copy_matrix;
 
-    return result.as_this_type();
+    return out_result.as_this_type();
 }
+
+template <bool copy, size_t _order, typename _type, typename _this_type>
+_this_type& matrixnxn_inverse(matrixnxnt<_order, _type, _this_type>& out_result,
+    const matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant)
+{
+    matrixnxnt<_order, _type, _this_type> copy_matrix;
+    matrixnxnt<_order, _type, _this_type>& result = copy ? copy_matrix : out_result;
+
+    out_determinant = m.determinant();
+
+    for(size_t c=0; c<_order; ++c)
+        for(size_t r=0; r<_order; ++r)
+            result(r, c) = m.adjunct(r, c);
+
+    if(copy)
+        out_result = copy_matrix;
+
+    return out_result.transpose() /= out_determinant;
+}
+
+template <size_t _order, typename _type, typename _this_type>
+_this_type inverse(const matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant)
+{
+    _this_type ret;
+    matrixnxn_inverse<false>(ret, m, out_determinant);
+    return ret;
+}
+
+template <size_t _order, typename _type, typename _this_type>
+_this_type inverse(const matrixnxnt<_order, _type, _this_type>& m)
+{
+    _type tmp_determinant;
+    return inverse(m, tmp_determinant);
+}
+
 
 } // namespace _internal
 
@@ -560,7 +616,7 @@ public:
     static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near_dist, _type far_dist)
     {
         _type yscale = _type(1)/std::tan(fovy/2); //cot(fovy/2)
-		_type xscale = yscale/aspect;
+        _type xscale = yscale/aspect;
         _type depth = far_dist - near_dist;
 
         return matrix4x4t::rows(
