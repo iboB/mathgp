@@ -565,7 +565,7 @@ public:
     // projection
     static matrix4x4t ortho_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(0)), "near distance shouldn't be zero");
         _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
             2/width, 0,        0,          0,
@@ -600,7 +600,7 @@ public:
 
     static matrix4x4t perspective_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(0)), "near distance shouldn't be zero");
 
         _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
@@ -636,7 +636,7 @@ public:
 
     static matrix4x4t perspective_fov_lh(_type fovy, _type aspect, _type near_dist, _type far_dist)
     {
-        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(1)), "near distance shouldn't be zero");
+        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(0)), "near distance shouldn't be zero");
 
         _type yscale = _type(1)/std::tan(fovy/2); //cot(fovy/2)
         _type xscale = yscale/aspect;
