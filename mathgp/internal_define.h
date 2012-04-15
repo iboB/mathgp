@@ -20,8 +20,8 @@ namespace _internal
 template <typename rotation_object, typename _type>
 rotation_object rotation_from_vectors(const vector3t<_type>& src, const vector3t<_type>& target)
 {
-    MATHGP_ASSERT2(::mathgp::close(src.length(), _type(1)), "source vector should be normalized");
-    MATHGP_ASSERT2(::mathgp::close(target.length(), _type(1)), "target vector should be normalized");
+    MATHGP_ASSERT2(src.is_normalized(), "source vector should be normalized");
+    MATHGP_ASSERT2(target.is_normalized(), "target vector should be normalized");
     MATHGP_ASSERT1(!close(src, vector3t<_type>::zero()), "source vector shouldn't be zero");
     MATHGP_ASSERT1(!close(target, vector3t<_type>::zero()), "target vector shouldn't be zero");
 

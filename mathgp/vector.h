@@ -44,12 +44,23 @@ public:
         return this->as_this_type() /= length();
     }
 
+    bool is_normalized() const
+    {
+        return ::mathgp::close(length(), _type(1));
+    }
+
     _this_type& homogenous_normalize()
     {
         static_assert(dimension > 1, "you need at least two homogenous coordinates");
         MATHGP_ASSERT3(!::mathgp::close(this->back(), _type(0)), "homogenous normalize with a zero homogenous coordinate");
 
         return this->as_this_type() /= this->back();
+    }
+
+    _this_type get_reflection(const vectornt<_n, _type, _this_type>& normal) const
+    {
+        MATHGP_ASSERT3(normal.is_normalized(), "reflecting with a non-normalized normal");
+        return *this - _type(2) * dot(*this, normal) * normal;
     }
 };
 
@@ -93,6 +104,19 @@ _this_type normalized(const vectornt<_n, _type, _this_type>& a)
 
     return ret;
 }
+
+template <size_t _dim, typename _type, typename _this_type>
+_type distance_sq(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+{
+    return (b-a).length_sq();
+}
+
+template <size_t _dim, typename _type, typename _this_type>
+_type distance(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+{
+    return (b-a).length();
+}
+
 
 #if !defined(MATHGP_DISABLE_SWIZZLE)
 

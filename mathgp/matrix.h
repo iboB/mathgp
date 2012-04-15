@@ -494,7 +494,7 @@ public:
 
     static matrix3x3t rotation_quaternion(const quaterniont<_type>& q)
     {
-        MATHGP_ASSERT2(::mathgp::close(q.magnitude(), _type(1)), "rotation with a non-normalized quaternion");
+        MATHGP_ASSERT2(q.is_normalized(), "rotation with a non-normalized quaternion");
         MATHGP_ASSERT1(!::mathgp::close(q.magnitude(), _type(0)), "rotating with a broken quaternion");
 
         const _type x2 = sq(q.x());

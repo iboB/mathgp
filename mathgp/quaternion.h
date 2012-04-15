@@ -177,8 +177,13 @@ public:
 
     quaterniont normalize()
     {
-        as_v4.normalize();
+        as_v4().normalize();
         return *this;
+    }
+
+    bool is_normalized() const
+    {
+        return as_v4().is_normalized();
     }
 
     void to_axis_angle(vector3t<_type>& out_axis, _type& out_angle) const
