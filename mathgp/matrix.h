@@ -656,7 +656,7 @@ public:
 
     ////////////////////////////////////////////////////////
     // view
-    static matrix4x4t look_towards(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
+    static matrix4x4t look_towards_lh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
     {
         MATHGP_ASSERT2(!close(dir, vector3t<_type>::zero()), "direction shouldn't be zero");
         MATHGP_ASSERT3(!close(up, vector3t<_type>::zero()), "up vector shouldn't be zero");
@@ -665,40 +665,39 @@ public:
         vector3t<_type> right = normalized(cross(up, front));
         vector3t<_type> up2 = cross(front, right); //since the original up is not to be trusted
 
-        vector3t<_type> shift = vector3t<_type>::coord(
-            -dot(right, eye),
-            -dot(up2, eye),
-            -dot(front, eye)
-        );
-
-        return basis_transform(shift, right, up2, front);
+        return basis_transform(eye, right, up2, front);
     }
 
-    //static matrix4x4t look_towards_rh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
-    //{
-    //    matrix4x4t ret = look_towards_lh(eye, dir, up);
-    //    flip_sign(ret.template column_vector<3>(3));
-    //    return ret;
-    //}
+    static matrix4x4t look_towards_rh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
+    {
+        look_towards_lh(eye, -dir, up);
+        return ret;
+    }
 
     static matrix4x4t look_at_lh(const vector3t<_type>& eye, const vector3t<_type>& at, const vector3t<_type>& up)
     {
-        return look_towards(eye, at-eye, up);
+        return look_towards_lh(eye, at-eye, up);
     }
 
     static matrix4x4t look_at_rh(const vector3t<_type>& eye, const vector3t<_type>& at, const vector3t<_type>& up)
     {
-        return look_towards(eye, eye-at, up);
+        return look_towards_lh(eye, eye-at, up);
     }
 
     ////////////////////////////////////////////////////////
     // transforms
     static matrix4x4t basis_transform(const vector3t<_type>& o, const vector3t<_type>& e1, const vector3t<_type>& e2, const vector3t<_type>& e3)
     {
+        vector3t<_type> shift = vector3t<_type>::coord(
+            -dot(e1, o),
+            -dot(e2, o),
+            -dot(e3, o)
+        );
+
         matrix4x4t transform = matrix4x4t::rows(
-            e1.x(), e1.y(), e1.z(), o.x(),
-            e2.x(), e2.y(), e2.z(), o.y(),
-            e3.x(), e3.y(), e3.z(), o.z(),
+            e1.x(), e1.y(), e1.z(), shift.x(),
+            e2.x(), e2.y(), e2.z(), shift.y(),
+            e3.x(), e3.y(), e3.z(), shift.z(),
             0,      0,      0,      1
         );
 
