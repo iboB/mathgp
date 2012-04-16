@@ -670,8 +670,7 @@ public:
 
     static matrix4x4t look_towards_rh(const vector3t<_type>& eye, const vector3t<_type>& dir, const vector3t<_type>& up)
     {
-        look_towards_lh(eye, -dir, up);
-        return ret;
+        return look_towards_lh(eye, -dir, up);
     }
 
     static matrix4x4t look_at_lh(const vector3t<_type>& eye, const vector3t<_type>& at, const vector3t<_type>& up)
