@@ -1,0 +1,1 @@
+For the documentation please refer to the [MathGP wiki @ github](https://github.com/iboB/mathgp/wiki)
