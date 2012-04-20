@@ -16,7 +16,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="libboost_unit_test_framework-mgw45-mt-d-1_49" />
+					<Add library="libboost_unit_test_framework-mgw46-mt-d-1_49" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -29,6 +29,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="libboost_unit_test_framework-mgw46-mt-1_49" />
 				</Linker>
 			</Target>
 		</Build>
@@ -130,6 +131,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
