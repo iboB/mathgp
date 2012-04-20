@@ -15,7 +15,10 @@
 #       error "A minimum cl version of 16 is required to compile MathGP"
 #   endif
 #elif defined(__GNUC__)
-    #if __GNUC__ < 4 || __GNUC_MINOR__ < 5 || __GNUC_PATCHLEVEL__ < 2
+    #define GCC_VERSION (__GNUC__ * 10000 \
+                     + __GNUC_MINOR__ * 100 \
+                     + __GNUC_PATCHLEVEL__)
+    #if GCC_VERSION < 40502
         #error "A minimum gcc version of 4.5.2 is required to compile MathGP"
     #elif __GNUC_MINOR__ < 6
         // can be emulated through
