@@ -20,7 +20,7 @@
                      + __GNUC_PATCHLEVEL__)
     #if GCC_VERSION < 40502
         #error "A minimum gcc version of 4.5.2 is required to compile MathGP"
-    #elif __GNUC_MINOR__ < 6
+    #elif GCC_VERSION < 40600
         // can be emulated through
         // http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/nullptr#Solution_and_Sample_Code
         // but no need to maintain a global variable.
