@@ -4,17 +4,14 @@
 *.opensdf
 *.user
 
-test/Debug/
-test/ipch/
+*Debug/
+*Release/
+*ipch/
 
 #code blocks stuff
 *.depend
 *.layout
 *.gch
 
-test/bin/
-test/obj/
-
-#examples
-examples/bin/
-examples/OpenGLFixed/obj/
+*bin/
+*obj/
