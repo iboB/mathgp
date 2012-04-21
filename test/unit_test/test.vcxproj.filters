@@ -9,98 +9,98 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\mathgp\vector3_swizzle.inl">
+    <None Include="..\..\mathgp\vector3_swizzle.inl">
       <Filter>mathgp</Filter>
     </None>
-    <None Include="..\mathgp\vector4_swizzle.inl">
+    <None Include="..\..\mathgp\vector4_swizzle.inl">
       <Filter>mathgp</Filter>
     </None>
-    <None Include="..\mathgp\vector1_swizzle.inl">
+    <None Include="..\..\mathgp\vector1_swizzle.inl">
       <Filter>mathgp</Filter>
     </None>
-    <None Include="..\mathgp\vector2_swizzle.inl">
+    <None Include="..\..\mathgp\vector2_swizzle.inl">
       <Filter>mathgp</Filter>
     </None>
-    <None Include="..\mathgp\vector4_swizzle_define.inl">
+    <None Include="..\..\mathgp\vector4_swizzle_define.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector1_swizzle_declare.inl">
+    <None Include="..\..\mathgp\vector1_swizzle_declare.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector1_swizzle_define.inl">
+    <None Include="..\..\mathgp\vector1_swizzle_define.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector2_swizzle_declare.inl">
+    <None Include="..\..\mathgp\vector2_swizzle_declare.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector2_swizzle_define.inl">
+    <None Include="..\..\mathgp\vector2_swizzle_define.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector3_swizzle_declare.inl">
+    <None Include="..\..\mathgp\vector3_swizzle_declare.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector3_swizzle_define.inl">
+    <None Include="..\..\mathgp\vector3_swizzle_define.inl">
       <Filter>mathgp\gen</Filter>
     </None>
-    <None Include="..\mathgp\vector4_swizzle_declare.inl">
+    <None Include="..\..\mathgp\vector4_swizzle_declare.inl">
       <Filter>mathgp\gen</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\mathgp\complex.h">
+    <ClInclude Include="..\..\mathgp\complex.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\constants.h">
+    <ClInclude Include="..\..\mathgp\constants.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\defines.h">
+    <ClInclude Include="..\..\mathgp\defines.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\mathgp.h">
+    <ClInclude Include="..\..\mathgp\mathgp.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\matrix.h">
+    <ClInclude Include="..\..\mathgp\matrix.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\ntuple.h">
+    <ClInclude Include="..\..\mathgp\ntuple.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\transform.h">
+    <ClInclude Include="..\..\mathgp\transform.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\vector.h">
+    <ClInclude Include="..\..\mathgp\vector.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\functions.h">
+    <ClInclude Include="..\..\mathgp\functions.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\stdext.h">
+    <ClInclude Include="..\..\mathgp\stdext.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\types.h">
+    <ClInclude Include="..\..\mathgp\types.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\quaternion.h">
+    <ClInclude Include="..\..\mathgp\quaternion.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\glext.h">
+    <ClInclude Include="..\..\mathgp\glext.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\internal_declare.h">
+    <ClInclude Include="..\..\mathgp\internal_declare.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\internal_define.h">
+    <ClInclude Include="..\..\mathgp\internal_define.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\fwd.h">
+    <ClInclude Include="..\..\mathgp\fwd.h">
       <Filter>mathgp</Filter>
     </ClInclude>
-    <ClInclude Include="..\mathgp\platform.h">
+    <ClInclude Include="..\..\mathgp\platform.h">
       <Filter>mathgp</Filter>
     </ClInclude>
     <ClInclude Include="precompiled.h" />
     <ClInclude Include="mathgp_test.h" />
-    <ClInclude Include="..\mathgp\debug.h">
+    <ClInclude Include="..\..\mathgp\debug.h">
       <Filter>mathgp</Filter>
     </ClInclude>
   </ItemGroup>

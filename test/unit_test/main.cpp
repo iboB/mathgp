@@ -18,8 +18,6 @@ test_suite* geometry();
 
 test_suite* specific_3d();
 
-test_suite* perf();
-
 test_suite* swizzle();
 
 test_suite* init_unit_test_suite(int argc, char* argv[])

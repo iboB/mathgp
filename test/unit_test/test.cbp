@@ -37,84 +37,84 @@
 			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="..\" />
+			<Add directory="..\..\" />
 		</Compiler>
-		<Unit filename="..\mathgp\complex.h">
+		<Unit filename="..\..\mathgp\complex.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\constants.h">
+		<Unit filename="..\..\mathgp\constants.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\debug.h">
+		<Unit filename="..\..\mathgp\debug.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\defines.h">
+		<Unit filename="..\..\mathgp\defines.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\functions.h">
+		<Unit filename="..\..\mathgp\functions.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\mathgp.h">
+		<Unit filename="..\..\mathgp\mathgp.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\matrix.h">
+		<Unit filename="..\..\mathgp\matrix.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\ntuple.h">
+		<Unit filename="..\..\mathgp\ntuple.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\platform.h">
+		<Unit filename="..\..\mathgp\platform.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\quaternion.h">
+		<Unit filename="..\..\mathgp\quaternion.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\stdext.h">
+		<Unit filename="..\..\mathgp\stdext.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\transform.h">
+		<Unit filename="..\..\mathgp\transform.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\types.h">
+		<Unit filename="..\..\mathgp\types.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector.h">
+		<Unit filename="..\..\mathgp\vector.h">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector1_swizzle.inl">
+		<Unit filename="..\..\mathgp\vector1_swizzle.inl">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector1_swizzle_declare.inl">
+		<Unit filename="..\..\mathgp\vector1_swizzle_declare.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector1_swizzle_define.inl">
+		<Unit filename="..\..\mathgp\vector1_swizzle_define.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector2_swizzle.inl">
+		<Unit filename="..\..\mathgp\vector2_swizzle.inl">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector2_swizzle_declare.inl">
+		<Unit filename="..\..\mathgp\vector2_swizzle_declare.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector2_swizzle_define.inl">
+		<Unit filename="..\..\mathgp\vector2_swizzle_define.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector3_swizzle.inl">
+		<Unit filename="..\..\mathgp\vector3_swizzle.inl">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector3_swizzle_declare.inl">
+		<Unit filename="..\..\mathgp\vector3_swizzle_declare.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector3_swizzle_define.inl">
+		<Unit filename="..\..\mathgp\vector3_swizzle_define.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector4_swizzle.inl">
+		<Unit filename="..\..\mathgp\vector4_swizzle.inl">
 			<Option virtualFolder="mathgp\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector4_swizzle_declare.inl">
+		<Unit filename="..\..\mathgp\vector4_swizzle_declare.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
-		<Unit filename="..\mathgp\vector4_swizzle_define.inl">
+		<Unit filename="..\..\mathgp\vector4_swizzle_define.inl">
 			<Option virtualFolder="mathgp\gen\" />
 		</Unit>
 		<Unit filename="arithmetic.cpp" />
