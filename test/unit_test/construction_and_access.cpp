@@ -83,6 +83,9 @@ void vector_construct()
 
     point4 v4 = point4::coord(1, 2, 3, 4);
     BOOST_CHECK(memcmp(&v4, fv, sizeof(point4)) == 0);
+
+    vector3 v32 = vc(1, 2, 3);
+    BOOST_CHECK(memcmp(&v32, fv, sizeof(point3)) == 0);
 }
 
 void matrix_construct()

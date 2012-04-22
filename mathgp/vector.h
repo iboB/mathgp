@@ -165,6 +165,12 @@ private:
     // unsafe operators to be hidden
 };
 
+template <size_t _n, typename _type, typename _this_type>
+bool operator==(vectornt<_n, _type, _this_type>& a, vectornt<_n, wrap_ref<_type>, _this_type>& b)
+{
+    return true;
+}
+
 #endif // #if !defined(MATHGP_DISABLE_SWIZZLE)
 
 } // namespace _internal

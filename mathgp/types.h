@@ -47,4 +47,19 @@ typedef matrix4 matrix;
 typedef complext<MATHGP_PREFERRED_TYPE> complex;
 typedef quaterniont<MATHGP_PREFERRED_TYPE> quaternion;
 
+inline vector2 vc(MATHGP_PREFERRED_TYPE x, MATHGP_PREFERRED_TYPE y)
+{
+    return v(x, y);
+}
+
+inline vector3 vc(MATHGP_PREFERRED_TYPE x, MATHGP_PREFERRED_TYPE y, MATHGP_PREFERRED_TYPE z)
+{
+    return v(x, y, z);
+}
+
+inline vector4 vc(MATHGP_PREFERRED_TYPE x, MATHGP_PREFERRED_TYPE y, MATHGP_PREFERRED_TYPE z, MATHGP_PREFERRED_TYPE w)
+{
+    return v(x, y, z, w);
+}
+
 }

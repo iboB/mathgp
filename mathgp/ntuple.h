@@ -284,7 +284,7 @@ typename std::enable_if<std::is_arithmetic<_scalar>::value,
 _this_type>::type operator/(const ntuple<_n, _type, _this_type>& a,
                      const _scalar& scalar)
 {
-    MATHGP_ASSERT3(!::mathgp::close(scalar, _type(0)), "ntuple division by zero");
+    MATHGP_ASSERT3(!::mathgp::close(scalar, _scalar(0)), "ntuple division by zero");
 
     _this_type ret;
 

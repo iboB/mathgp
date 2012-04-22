@@ -15,5 +15,5 @@ vector2t<_type>& xy()
 
 const vector2t<_type>& xy() const
 {
-    return *reinterpret_cast<vector2t<_type>*>(this->as_array());
+    return *reinterpret_cast<const vector2t<_type>*>(this->as_array());
 }

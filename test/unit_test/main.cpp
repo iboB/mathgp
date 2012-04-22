@@ -12,13 +12,13 @@ test_suite* prerequisites();
 
 test_suite* construction_and_access();
 
+test_suite* swizzle();
+
 test_suite* arithmetic();
 
 test_suite* geometry();
 
 test_suite* specific_3d();
-
-test_suite* swizzle();
 
 test_suite* init_unit_test_suite(int argc, char* argv[])
 {
@@ -28,6 +28,7 @@ test_suite* init_unit_test_suite(int argc, char* argv[])
 
     main_test->add(prerequisites());
     main_test->add(construction_and_access());
+    main_test->add(swizzle());
     main_test->add(arithmetic());
     main_test->add(geometry());
     main_test->add(specific_3d());

@@ -112,5 +112,6 @@
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="specific_3d.cpp" />
     <ClCompile Include="precompiled.cpp" />
+    <ClCompile Include="swizzle.cpp" />
   </ItemGroup>
 </Project>

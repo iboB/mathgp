@@ -6,6 +6,12 @@
 
 #pragma once
 
+#define VEC3_CHECK_CLOSE_E(v1, v2, e) \
+    BOOST_CHECK_PREDICATE( std::bind(&_internal::close<3, float, vector3>, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), (v1)(v2)(e))
+
+#define VEC3_CHECK_CLOSE(v1, v2) VEC3_CHECK_CLOSE_E(v1, v2, constants<float>::EPSILON())
+
+
 #define MAT4_CHECK_CLOSE_E(m1, m2, e) \
     BOOST_CHECK_PREDICATE( std::bind(&_internal::close<16, float, matrix>, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), (m1)(m2)(e))
 

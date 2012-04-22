@@ -15,7 +15,7 @@ vector2t<_type>& zw()
 
 const vector2t<_type>& zw() const
 {
-    return *reinterpret_cast<vector2t<_type>*>(this->as_array() + 2);
+    return *reinterpret_cast<const vector2t<_type>*>(this->as_array() + 2);
 }
 
 vector3t<_type>& yzw()
@@ -25,7 +25,7 @@ vector3t<_type>& yzw()
 
 const vector3t<_type>& yzw() const
 {
-    return *reinterpret_cast<vector3t<_type>*>(this->as_array() + 1);
+    return *reinterpret_cast<const vector3t<_type>*>(this->as_array() + 1);
 }
 
 vector4t<_type>& xyzw()
@@ -35,5 +35,5 @@ vector4t<_type>& xyzw()
 
 const vector4t<_type>& xyzw() const
 {
-    return *reinterpret_cast<vector4t<_type>*>(this->as_array());
+    return *reinterpret_cast<const vector4t<_type>*>(this->as_array());
 }

@@ -5,6 +5,7 @@
 //  distribution for details about the copyright
 
 #include "precompiled.h"
+#include "mathgp_test.h"
 
 using namespace boost::unit_test;
 using namespace std;
@@ -12,6 +13,23 @@ using namespace mathgp;
 
 void ntuple_arithmetic()
 {
+    vector3 v1 = vector3::uniform(2);
+    const vector3 v2 = vector3::coord(1, 2, 3);
+
+    vector3 sum = v1 + v2;
+    BOOST_CHECK_EQUAL(sum, vc(3, 4, 5));
+    
+    v1+=v2;
+    BOOST_CHECK_EQUAL(v1, sum);
+
+    sum = v1 - vector3::uniform(2);
+    BOOST_CHECK_EQUAL(v2,  sum);
+
+    v1-=v2;
+    BOOST_CHECK_EQUAL(v1, vector3::uniform(2));
+
+    sum = v2 / 2;
+    VEC3_CHECK_CLOSE(sum, vc(0.5f, 1, 1.5f));
 }
 
 void vector_arithmetic()
