@@ -623,8 +623,8 @@ public:
 
         matrix4x4t ret = perspective_lh(width, height, near_dist, far_dist);
 
-        ret(0, 3) = -(left + right)/width;
-        ret(1, 3) = -(top + bottom)/height;
+        ret(0, 2) = -(left + right)/width;
+        ret(1, 2) = -(top + bottom)/height;
 
         return ret;
     }
