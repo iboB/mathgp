@@ -25,7 +25,6 @@ void ntuple_construct()
     BOOST_CHECK_EQUAL(sizeof(complext<unsigned>), 2*sizeof(unsigned));
     BOOST_CHECK_EQUAL(sizeof(quaterniont<float>), 4*sizeof(float));
 
-
     float f2[] = {1.f, 2.f};
 
     float2 v22 = vector2::from_ptr(f2);
@@ -178,7 +177,7 @@ void access()
 
 test_suite* construction_and_access()
 {
-    test_suite* suite = BOOST_TEST_SUITE("construction and access");
+    test_suite* suite = BOOST_TEST_SUITE("Construction and access");
 
     suite->add(BOOST_TEST_CASE(ntuple_construct));
     suite->add(BOOST_TEST_CASE(vector_construct));
