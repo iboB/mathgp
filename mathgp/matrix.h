@@ -188,27 +188,27 @@ public:
 
     _type first_minor(size_t row, size_t col) const
     {
-        typename matrix_space<order-1, _type>::matrix minor;
+        typename matrix_space<order-1, _type>::matrix minor_matrix;
 
         for(size_t r=0; r<row; ++r)
         {
             for(size_t c=0; c<col; ++c)
-                minor(r, c) = (*this)(r, c);
+                minor_matrix(r, c) = (*this)(r, c);
 
             for(size_t c=col+1; c<order; ++c)
-                minor(r, c-1) = (*this)(r, c);
+                minor_matrix(r, c-1) = (*this)(r, c);
         }
 
         for(size_t r=row+1; r<order; ++r)
         {
             for(size_t c=0; c<col; ++c)
-                minor(r-1, c) = (*this)(r, c);
+                minor_matrix(r-1, c) = (*this)(r, c);
 
             for(size_t c=col+1; c<order; ++c)
-                minor(r-1, c-1) = (*this)(r, c);
+                minor_matrix(r-1, c-1) = (*this)(r, c);
         }
 
-        return minor.determinant();
+        return minor_matrix.determinant();
     }
 
     _type determinant() const

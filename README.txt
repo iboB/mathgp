@@ -1,3 +1,3 @@
 MathGP library
 
-A simple mathematical library for game programming
+A simple mathematical library for game programming.
