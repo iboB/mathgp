@@ -15,6 +15,14 @@
 namespace mathgp
 {
 
+// common typedefs
+typedef vector2t<unsigned> uvector2;
+typedef vector3t<unsigned> uvector3;
+
+typedef vector2t<int> ivector2;
+typedef vector3t<int> ivector3;
+
+// perferred typedefs
 template <size_t _n, typename _type = MATHGP_PREFERRED_TYPE>
 struct space
 {
