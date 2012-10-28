@@ -364,7 +364,7 @@ _this_type div(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _
 
     MATHGP_EACH_OF(ret) = a.at(i) / b.at(i);
 
-    return true;
+    return ret;
 }
 
 template <size_t _n, typename _type, typename _this_type>

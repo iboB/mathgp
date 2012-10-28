@@ -78,7 +78,7 @@ _type dot(const vectornt<_n, _type, _this_type>& a, const vectornt<_n, _type, _t
 template <size_t _dim, typename _type, typename _this_type>
 bool orthogonal(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
 {
-    return close(dot(a, b), 0);
+    return ::mathgp::close(dot(a, b), _type(0));
 }
 
 template <size_t _dim, typename _type, typename _this_type>
@@ -87,7 +87,13 @@ bool colinear(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _
     // there are many ways to do this, but to save sqrt calls let's try this
     vectornt<_dim, _type, _this_type> adb = div(a, b);
 
-    return close(adb.x(), adb.y()) && close(adb.x(), adb.z());
+	for(size_t i=1; i<_dim; ++i)
+	{
+		if(!::mathgp::close(adb.at(0), adb.at(i)))
+			return false;
+	}
+
+    return true;
 }
 
 

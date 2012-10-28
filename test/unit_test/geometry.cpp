@@ -11,6 +11,21 @@ using namespace boost::unit_test;
 using namespace std;
 using namespace mathgp;
 
+void vector_geometry()
+{
+	vector3 a = vector3::coord(0, 1, 0);
+	vector3 b = vector3::coord(1, 0, 0);
+
+	BOOST_CHECK(orthogonal(a, b));
+
+	a = vector3::coord(11.23f, 44.44f, 1.4323f);
+	b = a.get_orthogonal();
+	BOOST_CHECK(orthogonal(a, b));
+
+	b = 3*a;
+	BOOST_CHECK(colinear(a, b));
+}
+
 void matrix_algebra()
 {
     matrix m1 = matrix::identity();
@@ -83,12 +98,17 @@ void rotation()
     rot = matrix::rotation_axis(vector3::coord(1, 2, 3), 0.15f);
 
     MAT4_CHECK_CLOSE(qrot, rot);
+
+	q = quaternion::rotation_vectors(vector3::coord(1, 0, 0), vector3::coord(0, 1, 0));
+	quaternion q2 = quaternion::rotation_axis(vector3::coord(0, 0, 1), constants<float>::PI_HALF());
+	QUAT_CHECK_CLOSE(q, q2);
 }
 
 test_suite* geometry()
 {
     test_suite* suite = BOOST_TEST_SUITE("geometry");
 
+	suite->add(BOOST_TEST_CASE(vector_geometry));
     suite->add(BOOST_TEST_CASE(matrix_algebra));
     suite->add(BOOST_TEST_CASE(quaternion_geometry));
     suite->add(BOOST_TEST_CASE(scaling));
