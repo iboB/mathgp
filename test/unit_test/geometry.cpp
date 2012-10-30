@@ -17,13 +17,24 @@ void vector_geometry()
 	vector3 b = vector3::coord(1, 0, 0);
 
 	BOOST_CHECK(orthogonal(a, b));
+	BOOST_CHECK(!collinear(a, b));
+	
+	a = vector3::coord(1, 0, 0);
+	b = vector3::coord(0, 1, 0);
+
+	BOOST_CHECK(orthogonal(a, b));
+	BOOST_CHECK(!collinear(a, b));
 
 	a = vector3::coord(11.23f, 44.44f, 1.4323f);
 	b = a.get_orthogonal();
 	BOOST_CHECK(orthogonal(a, b));
+	BOOST_CHECK(orthogonal(a, vector3::zero()));
+	BOOST_CHECK(orthogonal(vector3::zero(), b));
 
 	b = 3*a;
-	BOOST_CHECK(colinear(a, b));
+	BOOST_CHECK(collinear(a, b));
+	BOOST_CHECK(collinear(a, vector3::zero()));
+	BOOST_CHECK(collinear(vector3::zero(), b));
 }
 
 void matrix_algebra()

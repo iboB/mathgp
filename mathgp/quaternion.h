@@ -172,6 +172,7 @@ public:
 
     quaterniont& inverse()
     {
+		MATHGP_ASSERT1(!::mathgp::close(length_sq(), _type(0)), "invering a zero-length quaternion");
         return conjugate() /= length_sq();
     }
 

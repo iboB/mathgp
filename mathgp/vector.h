@@ -82,12 +82,41 @@ bool orthogonal(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim,
 }
 
 template <size_t _dim, typename _type, typename _this_type>
-bool colinear(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+bool collinear(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
 {
     // there are many ways to do this, but to save sqrt calls let's try this
-    vectornt<_dim, _type, _this_type> adb = div(a, b);
 
-	for(size_t i=1; i<_dim; ++i)
+	// the idea is this but if b has a zero component it doesn't work :(
+    // vectornt<_dim, _type, _this_type> adb = div(a, b); // adb =  a div b
+	//for(size_t i=1; i<_dim; ++i)
+	//{
+	//	if(!::mathgp::close(adb.at(0), adb.at(i)))
+	//		return false;
+	//}
+
+	// work around this
+	if(close(b, vectornt<_dim, _type, _this_type>::zero()))
+	{
+		return true;
+	}
+	// no need to check for a, since the algorithm will return true on a == null
+
+	vectornt<_dim, _type, _this_type> adb; // a div b
+	size_t nzi = 0; // non-zero index
+	for(size_t i=0; i<_dim; ++i)
+	{
+		if(::mathgp::close(b.at(i), _type(0)))
+		{
+			if(!::mathgp::close(a.at(i), _type(0)))
+				return false;
+		}
+		else
+		{
+			adb.at(nzi++) = a.at(i) / b.at(i);
+		}
+	}
+
+	for(size_t i=1; i<nzi; ++i)
 	{
 		if(!::mathgp::close(adb.at(0), adb.at(i)))
 			return false;

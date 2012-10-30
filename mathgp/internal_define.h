@@ -26,7 +26,7 @@ rotation_object rotation_from_vectors(const vector3t<_type>& src, const vector3t
     MATHGP_ASSERT1(!close(target, vector3t<_type>::zero()), "target vector shouldn't be zero");
 
     _type cos_angle = dot(src, target);
-    if (!colinear(src, target))
+    if (!collinear(src, target))
     {
         vector3t<_type> axis = cross(src, target);
         return rotation_object::rotation_axis(axis, std::acos(cos_angle));

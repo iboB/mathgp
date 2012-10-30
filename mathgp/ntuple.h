@@ -362,7 +362,11 @@ _this_type div(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _
 {
     _this_type ret;
 
-    MATHGP_EACH_OF(ret) = a.at(i) / b.at(i);
+	MATHGP_FOR_VALUES(i)
+	{
+		MATHGP_ASSERT3(!::mathgp::close(b.at(i), _type(0)), "dividing by an ntuple with a zero component");
+		ret.at(i) = a.at(i) / b.at(i);
+	}
 
     return ret;
 }
