@@ -204,6 +204,39 @@ public:
         }
     }
 
+	void to_yaw_pitch_roll(_type& yaw, _type& pitch, _type& roll) const
+	{
+		MATHGP_ASSERT2(is_normalized(), "getting yaw, pitch, and roll from a non-normalized quaternion");
+
+		// singulatiry check from Martin John Baker (http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/)
+		// this happens when roll is close to PI/2 and breaks the equations
+		// so handle it separately
+		_type singulatiry_test = x()*y() + z()*w();
+
+		if(singulatiry_test > (_type(.5) - constants<_type>::EPSILON_LOW()))
+		{
+			yaw = 2 * std::atan2(x(), w());
+			pitch = 0;
+			roll = constants<_type>::PI_HALF();
+		}
+		else if(singulatiry_test < -(_type(.5) - constants<_type>::EPSILON_LOW()))
+		{
+			yaw = -2 * std::atan2(x(), w());
+			pitch = 0;
+			roll = -constants<_type>::PI_HALF();
+		}
+		else
+		{
+			// no apparent singulariries, procede with the general purpose algorithm
+			_type sqx = sq(x());
+			_type sqy = sq(y());
+			_type sqz = sq(z());
+			yaw = std::atan2(2*y()*w() - 2*x()*z(), 1 - 2*sqy - 2*sqz);
+			pitch = std::atan2(2*x()*w() - 2*y()*z(), 1 - 2*sqx - 2*sqz);
+			roll = std::asin(2*singulatiry_test);
+		}
+	}
+
 private:
     template <typename _t>
     friend _t dot(const quaterniont<_t>& a, const quaterniont<_t>& b);
