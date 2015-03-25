@@ -565,7 +565,7 @@ public:
     // projection
     static matrix4x4t ortho_lh(_type width, _type height, _type near_dist, _type far_dist)
     {
-        MATHGP_ASSERT1(!::mathgp::close(near_dist, _type(0)), "near distance shouldn't be zero");
+        MATHGP_ASSERT1(!::mathgp::close(far_dist, near_dist), "near distance shouldn't the same as far distance");
         _type depth = far_dist - near_dist;
         return matrix4x4t::rows(
             2/width, 0,        0,          0,
