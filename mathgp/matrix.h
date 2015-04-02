@@ -334,23 +334,22 @@ _this_type& matrixnxn_inverse(matrixnxnt<_order, _type, _this_type>& out_result,
     return out_result.transpose() /= out_determinant;
 }
 
+} // namespace _internal
+
 template <size_t _order, typename _type, typename _this_type>
-_this_type inverse(const matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant)
+_this_type inverse(const _internal::matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant)
 {
     _this_type ret;
-    matrixnxn_inverse<false>(ret, m, out_determinant);
+    internal::matrixnxn_inverse<false>(ret, m, out_determinant);
     return ret;
 }
 
 template <size_t _order, typename _type, typename _this_type>
-_this_type inverse(const matrixnxnt<_order, _type, _this_type>& m)
+_this_type inverse(const _internal::matrixnxnt<_order, _type, _this_type>& m)
 {
     _type tmp_determinant;
     return inverse(m, tmp_determinant);
 }
-
-
-} // namespace _internal
 
 
 template <typename _type>
