@@ -340,7 +340,7 @@ template <size_t _order, typename _type, typename _this_type>
 _this_type inverse(const _internal::matrixnxnt<_order, _type, _this_type>& m, _type& out_determinant)
 {
     _this_type ret;
-    internal::matrixnxn_inverse<false>(ret, m, out_determinant);
+    _internal::matrixnxn_inverse<false>(ret, m, out_determinant);
     return ret;
 }
 

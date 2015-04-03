@@ -353,7 +353,7 @@ _this_type mul(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _
 
     MATHGP_EACH_OF(ret) = a.at(i) * b.at(i);
 
-    return true;
+    return ret;
 }
 
 // divide term by term
