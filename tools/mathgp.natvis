@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <Type Name="mathgp::vector1t&lt;*&gt;">
+        <DisplayString>[{values[0]}]</DisplayString>
+        <Expand>
+            <Item Name="x">values[0]</Item>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::vector2t&lt;*&gt;">
+        <DisplayString>[{values[0]}, {values[1]}]</DisplayString>
+        <Expand>
+            <Item Name="x">values[0]</Item>
+            <Item Name="y">values[1]</Item>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::vector3t&lt;*&gt;">
+        <DisplayString>[{values[0]}, {values[1]}, {values[2]}]</DisplayString>
+        <Expand>
+            <Item Name="x">values[0]</Item>
+            <Item Name="y">values[1]</Item>
+            <Item Name="z">values[2]</Item>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::vector4t&lt;*&gt;">
+        <DisplayString>[{values[0]}, {values[1]}, {values[2]}, {values[3]}]</DisplayString>
+        <Expand>
+            <Item Name="x">values[0]</Item>
+            <Item Name="y">values[1]</Item>
+            <Item Name="z">values[2]</Item>
+            <Item Name="w">values[3]</Item>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::quaterniont&lt;*&gt;">
+        <DisplayString>{values}</DisplayString>
+        <Expand>
+            <Item Name="x">values[0]</Item>
+            <Item Name="y">values[1]</Item>
+            <Item Name="z">values[2]</Item>
+            <Item Name="w">values[3]</Item>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::matrix2x2t&lt;*&gt;">
+        <DisplayString>{values}</DisplayString>
+        <Expand>
+            <IndexListItems>
+                <Size>2</Size>
+                <ValueNode>*((vector2t&lt;$T1&gt;*)(values + $i * 2))</ValueNode>
+            </IndexListItems>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::matrix3x3t&lt;*&gt;">
+        <DisplayString>{values}</DisplayString>
+        <Expand>
+            <IndexListItems>
+                <Size>3</Size>
+                <ValueNode>*((vector3t&lt;$T1&gt;*)(values + $i * 3))</ValueNode>
+            </IndexListItems>
+        </Expand>
+    </Type>
+    <Type Name="mathgp::matrix4x4t&lt;*&gt;">
+        <DisplayString>{values}</DisplayString>
+        <Expand>
+            <IndexListItems>
+                <Size>4</Size>
+                <ValueNode>*((vector4t&lt;$T1&gt;*)(values + $i * 4))</ValueNode>
+            </IndexListItems>
+        </Expand>
+    </Type>
+</AutoVisualizer>
