@@ -17,7 +17,7 @@ namespace _internal
 {
 
 template <size_t _n, typename _type, typename _matrix_type, typename _vector_type>
-_vector_type operator*(const matrixnxnt<_n, _type, _matrix_type>& m, vectornt<_n, _type, _vector_type>& column_vector)
+_vector_type operator*(const matrixnxnt<_n, _type, _matrix_type>& m, const vectornt<_n, _type, _vector_type>& column_vector)
 {
     vectornt<_n, _type, _vector_type> result;
 
