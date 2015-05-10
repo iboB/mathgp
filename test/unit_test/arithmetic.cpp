@@ -30,6 +30,25 @@ void ntuple_arithmetic()
 
     sum = v2 / 2;
     VEC3_CHECK_CLOSE(sum, vc(0.5f, 1, 1.5f));
+
+    vector3 a = vector3::coord(1, 2, 3);
+    vector3 b = vector3::coord(9, 8, 6);
+    VEC3_CHECK_CLOSE(mul(a, b), vector3::coord(9, 16, 18));
+    VEC3_CHECK_CLOSE(div(b, a), vector3::coord(9, 4, 2));
+
+    VEC3_CHECK_CLOSE(clamp(vector3::coord(0, 6, 12), a, b), vector3::coord(1, 6, 6));
+
+    b = vector3::coord(3, 2, 1);
+
+    VEC3_CHECK_CLOSE(clamp(vector3::coord(2, 2, 2), a, b), vector3::coord(2, 2, 2));
+    VEC3_CHECK_CLOSE(tmax(a, b), vector3::coord(3, 2, 3));
+    VEC3_CHECK_CLOSE(tmin(a, b), vector3::coord(1, 2, 1));
+
+}
+
+void ntuple_ops()
+{
+
 }
 
 void vector_arithmetic()
@@ -98,6 +117,7 @@ test_suite* arithmetic()
     test_suite* suite = BOOST_TEST_SUITE("arithmetic");
 
     suite->add(BOOST_TEST_CASE(ntuple_arithmetic));
+    suite->add(BOOST_TEST_CASE(ntuple_ops));
     suite->add(BOOST_TEST_CASE(vector_arithmetic));
     suite->add(BOOST_TEST_CASE(matrix_arithmetic));
     suite->add(BOOST_TEST_CASE(quaternion_arithmetic));

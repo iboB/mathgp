@@ -391,6 +391,36 @@ _this_type sign(const ntuple<_n, _type, _this_type>& a)
     return ret;
 }
 
+template <size_t _n, typename _type, typename _this_type>
+_this_type clamp(const ntuple<_n, _type, _this_type>& v, const ntuple<_n, _type, _this_type>& min, const ntuple<_n, _type, _this_type>& max)
+{
+    _this_type ret;
+
+    MATHGP_EACH_OF(ret) = ::mathgp::clamp(v.at(i), min.at(i), max.at(i));
+
+    return ret;
+}
+
+template <size_t _n, typename _type, typename _this_type>
+_this_type tmin(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _this_type>& b)
+{
+    _this_type ret;
+
+    MATHGP_EACH_OF(ret) = ::std::min(a.at(i), b.at(i));
+
+    return ret;
+}
+
+template <size_t _n, typename _type, typename _this_type>
+_this_type tmax(const ntuple<_n, _type, _this_type>& a, const ntuple<_n, _type, _this_type>& b)
+{
+    _this_type ret;
+
+    MATHGP_EACH_OF(ret) = ::std::max(a.at(i), b.at(i));
+
+    return ret;
+}
+
 } // namespace _internal
 
 template <typename _t>

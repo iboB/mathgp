@@ -57,4 +57,20 @@ _type round(_type f)
     return std::floor(f+_type(0.5));
 }
 
+template <typename _type>
+typename std::enable_if<std::is_arithmetic<_type>::value,
+_type>::type clamp(_type v, _type min, _type max)
+{
+    if (min > max)
+        std::swap(min, max);
+
+    if (v < min)
+        return min;
+
+    if (v > max)
+        return max;
+
+    return v;
+}
+
 } // namespace mathgp

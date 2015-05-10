@@ -38,6 +38,16 @@ public:
         return std::sqrt(length_sq());
     }
 
+    _type manhattan_length() const
+    {
+        _type result = 0;
+
+        MATHGP_FOR_VALUES(i)
+            result += ::std::abs(this->at(i));
+
+        return result;
+    }
+
     _this_type& normalize()
     {
         MATHGP_ASSERT3(!::mathgp::close(length(), _type(0)), "normalizing a zero-length vector");
@@ -151,6 +161,13 @@ _type distance(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, 
 {
     return (b-a).length();
 }
+
+template <size_t _dim, typename _type, typename _this_type>
+_type manhattan_distance(const vectornt<_dim, _type, _this_type>& a, const vectornt<_dim, _type, _this_type>& b)
+{
+    return (b - a).manhattan_length();
+}
+
 
 
 #if !defined(MATHGP_DISABLE_SWIZZLE)

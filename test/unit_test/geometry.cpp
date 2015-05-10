@@ -8,13 +8,29 @@
 #include "mathgp_test.h"
 
 using namespace boost::unit_test;
-using namespace std;
+//using namespace std;
 using namespace mathgp;
 
 void vector_geometry()
 {
-	vector3 a = vector3::coord(0, 1, 0);
-	vector3 b = vector3::coord(1, 0, 0);
+    vector3 a = vector3::coord(0, 1, 0);
+
+    BOOST_CHECK_CLOSE(a.length(), 1.f, mathgp::constants<float>::EPSILON());
+    BOOST_CHECK_EQUAL(a.length_sq(), 1.f);
+    BOOST_CHECK_EQUAL(a.manhattan_length(), 1.f);
+
+    vector3 b = vector3::coord(1, 2, 3);
+
+    BOOST_CHECK_CLOSE(b.length(), 3.741657387f, mathgp::constants<float>::EPSILON());
+    BOOST_CHECK_EQUAL(b.length_sq(), 14.f);
+    BOOST_CHECK_EQUAL(b.manhattan_length(), 6.f);
+
+    BOOST_CHECK_CLOSE(distance(a, b), 3.31662479f, mathgp::constants<float>::EPSILON());
+    BOOST_CHECK_EQUAL(distance_sq(a, b), 11.f);
+    BOOST_CHECK_EQUAL(manhattan_distance(a, b), 5.f);
+
+	a = vector3::coord(0, 1, 0);
+	b = vector3::coord(1, 0, 0);
 
 	BOOST_CHECK(orthogonal(a, b));
 	BOOST_CHECK(!collinear(a, b));

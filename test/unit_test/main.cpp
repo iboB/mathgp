@@ -26,6 +26,8 @@ test_suite* init_unit_test_suite(int argc, char* argv[])
 
     test_suite* main_test = BOOST_TEST_SUITE("MathGP");
 
+    std::cout << mathgp::cross(mathgp::v(1, 2, 3), mathgp::v(4, 5, 6)) << std::endl;
+
     main_test->add(prerequisites());
     main_test->add(construction_and_access());
     main_test->add(swizzle());
