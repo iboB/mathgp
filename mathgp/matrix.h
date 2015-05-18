@@ -221,7 +221,7 @@ public:
         return matrixnxn_inverse<true>(*this, *this, out_determinant);
     }
 
-    matrixnxnt& inverse()
+    _this_type& inverse()
     {
         _type tmp_determinant;
         return inverse(tmp_determinant);
