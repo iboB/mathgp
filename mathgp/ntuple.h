@@ -131,22 +131,22 @@ public:
     typedef _type* iterator;
     typedef const _type* const_iterator;
 
-    iterator* begin()
+    iterator begin()
     {
         return as_array();
     }
 
-    iterator* end()
+    iterator end()
     {
         return as_array() + value_count;
     }
 
-    const_iterator* begin() const
+    const_iterator begin() const
     {
         return as_array();
     }
 
-    const_iterator* end() const
+    const_iterator end() const
     {
         return as_array() + value_count;
     }
