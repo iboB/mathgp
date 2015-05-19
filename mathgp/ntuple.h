@@ -230,7 +230,6 @@ public:
 
 protected:
     _type values[value_count];
-    ntuple() {};
 };
 
 template <size_t _n, typename _type, typename _this_type>
