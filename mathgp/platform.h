@@ -14,6 +14,10 @@
 #   if _MSC_VER < 1600
 #       error "A minimum cl version of 16 is required to compile MathGP"
 #   endif
+#elif defined(EMSCRIPTEN)
+// we're fine
+#elif defined(__clang__)
+// we're fine
 #elif defined(__GNUC__)
     #define GCC_VERSION (__GNUC__ * 10000 \
                      + __GNUC_MINOR__ * 100 \

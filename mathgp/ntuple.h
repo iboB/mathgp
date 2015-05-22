@@ -12,6 +12,7 @@
 #include "functions.h"
 #include <cmath>
 #include <cfloat>
+#include <algorithm>
 
 namespace mathgp
 {
