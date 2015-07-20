@@ -15,5 +15,5 @@
 
 #define MATHGP_EACH_OF(x) for(size_t i=0; i<_n; ++i) x.at(i)
 
-#define MATHGP_CAT(a, b) _MATHGP_INTERNAL_CAT(a, b);
+#define MATHGP_CAT(a, b) _MATHGP_INTERNAL_CAT(a, b)
 #define _MATHGP_INTERNAL_CAT(a, b) a##b
