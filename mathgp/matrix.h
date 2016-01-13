@@ -20,6 +20,9 @@ struct matrix_space
 {
 };
 
+template <typename _type>
+class matrix4x4t;
+
 namespace _internal
 {
 
@@ -31,6 +34,12 @@ _this_type& matrixnxn_multiply(
     matrixnxnt<_order, _type, _this_type>& out_result,
     const matrixnxnt<_order, _type, _this_type>& a,
     const matrixnxnt<_order, _type, _this_type>& b);
+
+template <bool copy>
+matrix4x4t<float>& matrixnxn_multiply(
+    matrixnxnt<4, float, matrix4x4t<float>>& out_result,
+    const matrixnxnt<4, float, matrix4x4t<float>>& a,
+    const matrixnxnt<4, float, matrix4x4t<float>>& b);
 
 template <bool copy, size_t _order, typename _type, typename _this_type>
 _this_type& matrixnxn_inverse(matrixnxnt<_order, _type, _this_type>& out_result,
@@ -50,7 +59,7 @@ public:
     {
         _this_type ret = _this_type::zero();
 
-        for(size_t i=0; i<order; ++i)
+        for (size_t i = 0; i < order; ++i)
             ret.m(i, i) = _type(1);
 
         return ret;
@@ -60,7 +69,7 @@ public:
     {
         _this_type ret = _this_type::zero();
 
-        for(size_t i=0; i<order; ++i)
+        for (size_t i = 0; i < order; ++i)
         {
             MATHGP_ASSERT1(!::mathgp::close(scale.at(i), _type(0)), "scale shouldn't be zero");
             ret.m(i, i) = scale.at(i);
@@ -73,25 +82,25 @@ public:
     // access
     _type* column(size_t i)
     {
-        MATHGP_ASSERT3(i<order, "column beyond order");
+        MATHGP_ASSERT3(i < order, "column beyond order");
         return this->as_array() + i*order;
     }
 
     const _type* column(size_t i) const
     {
-        MATHGP_ASSERT3(i<order, "column beyond order");
+        MATHGP_ASSERT3(i < order, "column beyond order");
         return this->as_array() + i*order;
     }
 
     _type& m(size_t row, size_t column)
     {
-        MATHGP_ASSERT3(row<order, "row beyond order");
+        MATHGP_ASSERT3(row < order, "row beyond order");
         return this->column(column)[row];
     }
 
     const _type& m(size_t row, size_t column) const
     {
-        MATHGP_ASSERT3(row<order, "row beyond order");
+        MATHGP_ASSERT3(row < order, "row beyond order");
         return this->column(column)[row];
     }
 
@@ -134,7 +143,7 @@ public:
         MATHGP_ASSERT3(row < order, "row vector beyond matrix order");
         order_vector vec;
 
-        for(size_t col=0; col<order; ++col)
+        for (size_t col = 0; col < order; ++col)
         {
             vec.at(col) = this->column(col)[row];
         }
@@ -143,16 +152,43 @@ public:
     }
 
     template <size_t _dim>
-    typename vector_space<_dim, _type>::vector& row_vector(size_t row, size_t offset) const
+    typename vector_space<_dim, _type>::vector row_vector(size_t row, size_t offset) const
     {
         MATHGP_ASSERT3(row < order, "row vector beyond matrix order");
         MATHGP_ASSERT2(offset + _dim <= order, "row vector reaching end of row");
 
         typename vector_space<_dim, _type>::vector vec;
 
-        for(size_t col=offset; col<_dim; ++col)
+        for (size_t col = 0; col < _dim; ++col)
         {
-            vec.at(col) = this->column(col)[row];
+            vec.at(col) = this->column(offset + col)[row];
+        }
+
+        return vec;
+    }
+
+    order_vector main_diagonal() const
+    {
+        order_vector vec;
+
+        for (size_t i = 0; i < order; ++i)
+        {
+            vec.at(i) = this->m(i, i);
+        }
+
+        return vec;
+    }
+
+    template <size_t _dim>
+    typename vector_space<_dim, _type>::vector main_diagonal(size_t offset) const
+    {
+        MATHGP_ASSERT2(offset + _dim <= order, "diagonal out of range");
+
+        typename vector_space<_dim, _type>::vector vec;
+
+        for (size_t i = 0; i < _dim; ++i)
+        {
+            vec.at(i) = this->m(offset + i, offset + i);
         }
 
         return vec;
@@ -308,6 +344,41 @@ _this_type& matrixnxn_multiply(
     }
 
     if(copy)
+        out_result = copy_matrix;
+
+    return out_result.as_this_type();
+}
+
+template <bool copy>
+matrix4x4t<float>& matrixnxn_multiply(
+    matrixnxnt<4, float, matrix4x4t<float>>& out_result,
+    const matrixnxnt<4, float, matrix4x4t<float>>& a,
+    const matrixnxnt<4, float, matrix4x4t<float>>& b)
+{
+    matrixnxnt<4, float, matrix4x4t<float>> copy_matrix;
+    matrixnxnt<4, float, matrix4x4t<float>>& result = copy ? copy_matrix : out_result;
+
+    result[0] = a[0] * b[0] + a[4] * b[1] + a[8] * b[2] + a[12] * b[3];
+    result[1] = a[1] * b[0] + a[5] * b[1] + a[9] * b[2] + a[13] * b[3];
+    result[2] = a[2] * b[0] + a[6] * b[1] + a[10] * b[2] + a[14] * b[3];
+    result[3] = a[3] * b[0] + a[7] * b[1] + a[11] * b[2] + a[15] * b[3];
+
+    result[4] = a[0] * b[4] + a[4] * b[5] + a[8] * b[6] + a[12] * b[7];
+    result[5] = a[1] * b[4] + a[5] * b[5] + a[9] * b[6] + a[13] * b[7];
+    result[6] = a[2] * b[4] + a[6] * b[5] + a[10] * b[6] + a[14] * b[7];
+    result[7] = a[3] * b[4] + a[7] * b[5] + a[11] * b[6] + a[15] * b[7];
+
+    result[8] = a[0] * b[8] + a[4] * b[9] + a[8] * b[10] + a[12] * b[11];
+    result[9] = a[1] * b[8] + a[5] * b[9] + a[9] * b[10] + a[13] * b[11];
+    result[10] = a[2] * b[8] + a[6] * b[9] + a[10] * b[10] + a[14] * b[11];
+    result[11] = a[3] * b[8] + a[7] * b[9] + a[11] * b[10] + a[15] * b[11];
+
+    result[12] = a[0] * b[12] + a[4] * b[13] + a[8] * b[14] + a[12] * b[15];
+    result[13] = a[1] * b[12] + a[5] * b[13] + a[9] * b[14] + a[13] * b[15];
+    result[14] = a[2] * b[12] + a[6] * b[13] + a[10] * b[14] + a[14] * b[15];
+    result[15] = a[3] * b[12] + a[7] * b[13] + a[11] * b[14] + a[15] * b[15];
+
+    if (copy)
         out_result = copy_matrix;
 
     return out_result.as_this_type();
