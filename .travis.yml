@@ -11,17 +11,23 @@ git:
 env:
   global:
     - CMAKE_OPTIONS_GLOBAL="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    - COVERALLS_SERVICE_NAME=travis-ci
 
 compiler:
   - clang
   - gcc
 os: linux
 
+addons:
+  apt:
+    packages: ["lcov", "curl"]
+
 script:
   # initial run with options
   - cd test/unit_test
   - cmake ${CMAKE_OPTIONS_GLOBAL} .
   - make -j2
+  - make coveralls
   - ctest --output-on-failure
 
 after_script:
