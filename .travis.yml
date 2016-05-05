@@ -1,0 +1,28 @@
+sudo: false
+language: c++
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+git:
+  depth: 5
+
+env:
+  global:
+    - CMAKE_OPTIONS_GLOBAL="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+
+compiler:
+  - clang
+  - gcc
+os: linux
+
+script:
+  # initial run with options
+  - cd test/unit_test
+  - cmake ${CMAKE_OPTIONS_GLOBAL} .
+  - make -j2
+  - ctest --output-on-failure
+
+after_script:
+  - cat compile_commands.json
