@@ -1,16 +1,14 @@
 //                MathGP Library
-//     Copyright (c) 2012 Borislav Stanimirov
-//
+//  Copyright (c) 2012-2016 Borislav Stanimirov
+//   
 //  See the LICENSE.txt file, included in this
 //  distribution for details about the copyright
+#include "mathgp_test.h"
 
-#include "precompiled.h"
-
-using namespace boost::unit_test;
 using namespace std;
 using namespace mathgp;
 
-void projections()
+TESTCASE("projections")
 {
     matrix projection = matrix::perspective_rh(2, 2, 2, 100);
 
@@ -19,7 +17,7 @@ void projections()
     projection = matrix::perspective_fov_rh(constants<float>::PI()/3, 1, 2, 100);
 }
 
-void views()
+TESTCASE("views")
 {
     matrix view = matrix::look_at_rh(point3::zero(), point3::coord(0, 0, -6), point3::coord(0, 1, 0));
     
@@ -30,14 +28,4 @@ void views()
     cam_pos -= cam_center;
 
     view = matrix::look_at_rh(cam_pos, cam_center, point3::coord(0, 1, 0));
-}
-
-test_suite* specific_3d()
-{
-    test_suite* suite = BOOST_TEST_SUITE("specific_3d");
-
-    suite->add(BOOST_TEST_CASE(projections));
-    suite->add(BOOST_TEST_CASE(views));
-
-    return suite;
 }

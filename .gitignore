@@ -3,6 +3,7 @@
 *.sdf
 *.opensdf
 *.user
+vc12/
 
 *Debug/
 *Release/
