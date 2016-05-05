@@ -7,6 +7,10 @@ project(mathgp-test)
 file(GLOB tests ${CMAKE_CURRENT_SOURCE_DIR}/*.*)
 file(GLOB doctest ${CMAKE_CURRENT_SOURCE_DIR}/doctest/*.*)
 
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
 add_executable(mathgp-test
     ${tests}
     ${doctest}
