@@ -5,6 +5,8 @@
 //  distribution for details about the copyright
 #include "mathgp_test.h"
 
+#include <cstring>
+
 using namespace std;
 using namespace mathgp;
 
