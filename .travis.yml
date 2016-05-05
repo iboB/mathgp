@@ -29,6 +29,7 @@ addons:
     notification_email: b.stanimirov@abv.bg
     build_command_prepend: cd test/unit_test && cmake .
     build_command: make
+    branch_pattern: master
 
 script:
   # initial run with options
