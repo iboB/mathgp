@@ -11,6 +11,7 @@ git:
 env:
   global:
     - CMAKE_OPTIONS_GLOBAL="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    # COVERALLS_REPO_TOKEN added as env var in travis project
     - COVERALLS_SERVICE_NAME=travis-ci
 
 compiler:
@@ -21,6 +22,13 @@ os: linux
 addons:
   apt:
     packages: ["lcov", "curl"]
+  coverity_scan:
+    # COVERITY_SCAN_TOKEN added as env var in travis project
+    project:
+      name: iboB/mathgp
+    notification_email: b.stanimirov@abv.bg
+    build_command_prepend: cd test/unit_test && cmake .
+    build_command: make
 
 script:
   # initial run with options
